@@ -5,6 +5,10 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,8 +25,13 @@ public class MainActivity extends AppCompatActivity {
     String phoneFilename = "phonerepo";
     String saveString = "ASDASDAS";
     String[] data = new String[1000000];
-    File dataPath = new File(Environment.getExternalStorageDirectory()+"/phonerepo/");
+    File dataPath = new File(Environment.getExternalStorageDirectory() + "/phonerepo/");
     File dataFile = new File(dataPath, "data.txt");
+
+    //Buttons, Textviews, and Editviews
+    Button createProfile = (Button)findViewById(R.id.createProfile);
+    Button deleteProfile = (Button)findViewById(R.id.deleteProfile);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +51,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             FileWriter writer = new FileWriter(dataFile);
 
-            for(int i = 0; i < toWriteData.length; i++) {
-                if(toWriteData[i] == null) {} else {
+            for (int i = 0; i < toWriteData.length; i++) {
+                if (toWriteData[i] == null) {
+                } else {
                     writer.append(toWriteData[i] + "\n");
                 }
             }
@@ -65,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         if (!file.exists()) {
             file.mkdirs();
         }
-        File dataFile = new File(Environment.getExternalStorageDirectory()+"/phonerepo/",
+        File dataFile = new File(Environment.getExternalStorageDirectory() + "/phonerepo/",
                 dataFileName);
         if (!dataFile.exists()) {
             try {
@@ -114,18 +124,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void printList(String[] list) {
-        for(int i = 0; i < list.length; i++) {
-            if(list[i] == null) {} else {
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] == null) {
+            } else {
                 Log.d("asd", list[i]);
             }
         }
     }
 
     public void setupComplete() {
-
-        printList(data);
-
+        showProfileList();
 
     }
 
+    public void showProfileList() {
+        createProfile.setVisibility(View.INVISIBLE);
+        deleteProfile.setVisibility(View.INVISIBLE);
+
+
+
+    }
 }
