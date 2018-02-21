@@ -133,15 +133,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setupComplete() {
+        hideEverything();
         showProfileList();
 
     }
 
     public void showProfileList() {
+
+
+
+    }
+
+    public void hideEverything() {
         createProfile.setVisibility(View.INVISIBLE);
         deleteProfile.setVisibility(View.INVISIBLE);
-
-
-
     }
 }
