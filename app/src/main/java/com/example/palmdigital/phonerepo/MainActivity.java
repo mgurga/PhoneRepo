@@ -28,10 +28,6 @@ public class MainActivity extends AppCompatActivity {
     File dataPath = new File(Environment.getExternalStorageDirectory() + "/phonerepo/");
     File dataFile = new File(dataPath, "data.txt");
 
-    //Buttons, Textviews, and Editviews
-    Button createProfile = (Button)findViewById(R.id.createProfile);
-    Button deleteProfile = (Button)findViewById(R.id.deleteProfile);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +81,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        initializeVariables();
+
+    }
+
+    public void initializeVariables() {
+        //Buttons, Textviews, and Editviews
+        Button createProfile = (Button)findViewById(R.id.createProfile);
+        Button deleteProfile = (Button)findViewById(R.id.deleteProfile);
     }
 
     public String[] loadTextFile(File inFile) {
@@ -145,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void hideEverything() {
-        createProfile.setVisibility(View.INVISIBLE);
-        deleteProfile.setVisibility(View.INVISIBLE);
+        //createProfile.setVisibility(View.INVISIBLE);
+        //deleteProfile.setVisibility(View.INVISIBLE);
     }
 }
