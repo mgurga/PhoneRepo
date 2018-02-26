@@ -32,8 +32,11 @@ public class MainActivity extends AppCompatActivity {
     File dataPath = new File(Environment.getExternalStorageDirectory() + "/phonerepo/");
     File dataFile = new File(dataPath, "data.txt");
 
-    TextView[] tvFileViewer = new TextView[27];
+    TextView tvFileViewer;
 
+    EditText[] inputFields = new EditText[5];
+
+    Button saveProfile;
     Button createProfile;
     Button deleteProfile;
 
@@ -52,11 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-    @SuppressLint("ResourceType")
-
-
-
 
     public void writeToData(String[] toWriteData) {
         try {
@@ -137,15 +135,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void displayList(String[] list) {
+        tvFileViewer.setText("");
         for (int i = 0; i < 25; i++) {
             if (list[i] == null) {
             } else {
-                tvFileViewer[i].setText(list[i]);
+                tvFileViewer.setText(tvFileViewer + list[i] + "\n");
             }
         }
     }
 
     public void setupComplete() {
+        hideEverything();
+        createProfile.setVisibility(View.VISIBLE);
+        deleteProfile.setVisibility(View.VISIBLE);
 
     }
 
@@ -157,17 +159,38 @@ public class MainActivity extends AppCompatActivity {
 
     public void creProfile(View v) {
         hideEverything();
-        String[] oldData = new String[100000];
-        oldData = loadTextFile(dataFile);
-
-
+        for(int i = 0; i < inputFields.length; i++) {
+            inputFields[i].setVisibility(View.VISIBLE);
+        }
+        saveProfile.setVisibility(View.VISIBLE);
 
     }
 
-    public void hidetvFileManager() {
-        for(int i = 0; i < tvFileViewer.length; i++) {
-            tvFileViewer[i].setVisibility(View.INVISIBLE);
+    public void saveProfile(View v) {
+        TextView out = findViewById(R.id.out);
+        out.setText(inputFields[0].getText());
+        String[] oldData = data;
+        String[] newData = new String[oldData.length+6];
+
+        for(int i = 0; i < oldData.length; i++) {
+            newData[i] = oldData[i];
         }
+
+        newData[oldData.length+1] = inputFields[0].getText().toString();
+        newData[oldData.length+2] = inputFields[1].getText().toString();
+        newData[oldData.length+3] = inputFields[2].getText().toString();
+        newData[oldData.length+4] = inputFields[3].getText().toString();
+        newData[oldData.length+5] = inputFields[4].getText().toString();
+
+        displayList(newData);
+        hideEverything();
+        createProfile.setVisibility(View.VISIBLE);
+        deleteProfile.setVisibility(View.VISIBLE);
+        tvFileViewer.setVisibility(View.VISIBLE);
+    }
+
+    public void hidetvFileManager() {
+        tvFileViewer.setVisibility(View.GONE);
     }
 
     public void delProfile(View v) {
@@ -175,45 +198,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void hideEverything() {
-
-        createProfile.setVisibility(View.INVISIBLE);
-        deleteProfile.setVisibility(View.INVISIBLE);
+        hidetvFileManager();
+        createProfile.setVisibility(View.GONE);
+        deleteProfile.setVisibility(View.GONE);
+        for(int i = 0 ; i < inputFields.length; i++) {
+            inputFields[i].setVisibility(View.GONE);
+        }
+        saveProfile.setVisibility(View.GONE);
     }
+
+
 
     public void initializeVariables() {
         //Buttons, Textviews, and Editviews
         createProfile = (Button)findViewById(R.id.createProfile);
         deleteProfile = (Button)findViewById(R.id.deleteProfile);
+        saveProfile = (Button)findViewById(R.id.saveProfile);
 
         LinearLayout listLayout = (LinearLayout) findViewById(R.id.list_layout);
         Button addButton = new Button(this);
 
-        tvFileViewer[0] = (TextView) findViewById(R.id.textLine25);
-        tvFileViewer[1] = (TextView) findViewById(R.id.textLine24);
-        tvFileViewer[2] = (TextView) findViewById(R.id.textLine23);
-        tvFileViewer[3] = (TextView) findViewById(R.id.textLine22);
-        tvFileViewer[4] = (TextView) findViewById(R.id.textLine21);
-        tvFileViewer[5] = (TextView) findViewById(R.id.textLine20);
-        tvFileViewer[6] = (TextView) findViewById(R.id.textLine19);
-        tvFileViewer[7] = (TextView) findViewById(R.id.textLine18);
-        tvFileViewer[8] = (TextView) findViewById(R.id.textLine17);
-        tvFileViewer[9] = (TextView) findViewById(R.id.textLine16);
-        tvFileViewer[10] = (TextView) findViewById(R.id.textLine15);
-        tvFileViewer[11] = (TextView) findViewById(R.id.textLine14);
-        tvFileViewer[12] = (TextView) findViewById(R.id.textLine13);
-        tvFileViewer[13] = (TextView) findViewById(R.id.textLine12);
-        tvFileViewer[14] = (TextView) findViewById(R.id.textLine11);
-        tvFileViewer[15] = (TextView) findViewById(R.id.textLine10);
-        tvFileViewer[16] = (TextView) findViewById(R.id.textLine9);
-        tvFileViewer[17] = (TextView) findViewById(R.id.textLine8);
-        tvFileViewer[18] = (TextView) findViewById(R.id.textLine7);
-        tvFileViewer[19] = (TextView) findViewById(R.id.textLine6);
-        tvFileViewer[20] = (TextView) findViewById(R.id.textLine5);
-        tvFileViewer[21] = (TextView) findViewById(R.id.textLine4);
-        tvFileViewer[22] = (TextView) findViewById(R.id.textLine3);
-        tvFileViewer[23] = (TextView) findViewById(R.id.textLine2);
-        tvFileViewer[24] = (TextView) findViewById(R.id.textLine1);
-        tvFileViewer[25] = (TextView) findViewById(R.id.textLine);
+        inputFields[0] = findViewById(R.id.input1);
+        inputFields[1] = findViewById(R.id.input2);
+        inputFields[2] = findViewById(R.id.input3);
+        inputFields[3] = findViewById(R.id.input4);
+        inputFields[4] = findViewById(R.id.input5);
+
+
+        tvFileViewer = (TextView) findViewById(R.id.textLine0);
 
     }
 }
