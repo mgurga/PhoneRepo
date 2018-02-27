@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -28,7 +29,7 @@ import static android.provider.Telephony.Mms.Part.FILENAME;
 public class MainActivity extends AppCompatActivity {
     String phoneFilename = "phonerepo";
     String saveString = "ASDASDAS";
-    String[] data = new String[1000000];
+    String[] data;
     File dataPath = new File(Environment.getExternalStorageDirectory() + "/phonerepo/");
     File dataFile = new File(dataPath, "data.txt");
 
@@ -134,14 +135,37 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    public void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
     public void displayList(String[] list) {
+        hideKeyboard();
+
+//        for(int i = 0; i < list.length; i++) {
+//            if(list[i] == null) {
+//                Log.d("asd", "[" + i + "] " + "null");
+//            } else {
+//                Log.d("asd", "[" + i + "] " + list[i]);
+//            }
+//        }
         tvFileViewer.setText("");
-        for (int i = 0; i < 25; i++) {
-            if (list[i] == null) {
+
+        for (int i = 0; i < list.length; i++) {
+            tvFileViewer.setText(tvFileViewer.getText() + "\n" + list[i]);
+            if(list[i] == null) {
+                Log.d("asd", "null");
             } else {
-                tvFileViewer.setText(tvFileViewer + list[i] + "\n");
+                Log.d("asd", list[i]);
             }
         }
+
+
+
     }
 
     public void setupComplete() {
@@ -172,17 +196,23 @@ public class MainActivity extends AppCompatActivity {
         String[] oldData = data;
         String[] newData = new String[oldData.length+6];
 
+        int count = 0;
         for(int i = 0; i < oldData.length; i++) {
-            newData[i] = oldData[i];
+            if(oldData[i] == null) {} else {
+                count++;
+            }
         }
 
-        newData[oldData.length+1] = inputFields[0].getText().toString();
-        newData[oldData.length+2] = inputFields[1].getText().toString();
-        newData[oldData.length+3] = inputFields[2].getText().toString();
-        newData[oldData.length+4] = inputFields[3].getText().toString();
-        newData[oldData.length+5] = inputFields[4].getText().toString();
+        newData[count+1] = inputFields[0].getText().toString();
+        newData[count+2] = inputFields[1].getText().toString();
+        newData[count+3] = inputFields[2].getText().toString();
+        newData[count+4] = inputFields[3].getText().toString();
+        newData[count+5] = inputFields[4].getText().toString();
 
         displayList(newData);
+
+
+
         hideEverything();
         createProfile.setVisibility(View.VISIBLE);
         deleteProfile.setVisibility(View.VISIBLE);
