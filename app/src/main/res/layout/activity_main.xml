@@ -110,12 +110,28 @@
         android:layout_height="match_parent">
 
 
-        <TextView
-            android:id="@+id/textLine0"
+        <LinearLayout
+            android:id="@+id/list_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="100"
-            android:text=" " />
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/textLine0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textMultiLine" />
+
+            <TextView
+                android:id="@+id/textLine01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="20"
+                android:scrollbars="vertical"
+                android:singleLine="false"
+                android:text="" />
+        </LinearLayout>
 
     </ScrollView>
 

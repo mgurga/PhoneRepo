@@ -153,17 +153,22 @@ public class MainActivity extends AppCompatActivity {
 //                Log.d("asd", "[" + i + "] " + list[i]);
 //            }
 //        }
+
+
+
         tvFileViewer.setText("");
 
-        for (int i = 0; i < list.length; i++) {
-            tvFileViewer.setText(tvFileViewer.getText() + "\n" + list[i]);
+        String toTV = "";
+        for(int i = 0; i < list.length; i++) {
             if(list[i] == null) {
-                Log.d("asd", "null");
+                toTV = toTV + "\n" + "/";
             } else {
-                Log.d("asd", list[i]);
+                toTV = toTV + "\n" + list[i];
             }
         }
-
+        toTV = toTV.replace("\\n", System.getProperty("line.separator"));
+        tvFileViewer.setText(toTV);
+        Log.d("asd", tvFileViewer.getText().toString());
 
 
     }
