@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     File dataPath = new File(Environment.getExternalStorageDirectory() + "/phonerepo/");
     File dataFile = new File(dataPath, "data.txt");
 
-    TextView tvFileViewer;
+    TextView[] tvList = new TextView[100];
 
     EditText[] inputFields = new EditText[5];
 
@@ -146,38 +146,17 @@ public class MainActivity extends AppCompatActivity {
     public void displayList(String[] list) {
         hideKeyboard();
 
-//        for(int i = 0; i < list.length; i++) {
-//            if(list[i] == null) {
-//                Log.d("asd", "[" + i + "] " + "null");
-//            } else {
-//                Log.d("asd", "[" + i + "] " + list[i]);
-//            }
-//        }
-
-
-
-        tvFileViewer.setText("");
-
-        String toTV = "";
-        for(int i = 0; i < list.length; i++) {
-            if(list[i] == null) {
-                toTV = toTV + "\n" + "/";
-            } else {
-                toTV = toTV + "\n" + list[i];
-            }
+        for(int i = 0; i < tvList.length; i++) {
+            tvList[i].setText(list[i]);
         }
-        toTV = toTV.replace("\\n", System.getProperty("line.separator"));
-        tvFileViewer.setText(toTV);
-        Log.d("asd", tvFileViewer.getText().toString());
-
-
+        showTVlist();
     }
 
     public void setupComplete() {
         hideEverything();
         createProfile.setVisibility(View.VISIBLE);
         deleteProfile.setVisibility(View.VISIBLE);
-
+        showTVlist();
     }
 
     public void showProfileList() {
@@ -216,16 +195,13 @@ public class MainActivity extends AppCompatActivity {
 
         displayList(newData);
 
-
-
         hideEverything();
         createProfile.setVisibility(View.VISIBLE);
         deleteProfile.setVisibility(View.VISIBLE);
-        tvFileViewer.setVisibility(View.VISIBLE);
     }
 
     public void hidetvFileManager() {
-        tvFileViewer.setVisibility(View.GONE);
+
     }
 
     public void delProfile(View v) {
@@ -242,7 +218,12 @@ public class MainActivity extends AppCompatActivity {
         saveProfile.setVisibility(View.GONE);
     }
 
-
+    public void showTVlist() {
+        for(int i = 0; i < tvList.length; i++) {
+            tvList[i].setVisibility(View.VISIBLE);
+            Log.d("asd", tvList[i].getText().toString());
+        }
+    }
 
     public void initializeVariables() {
         //Buttons, Textviews, and Editviews
@@ -253,14 +234,33 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout listLayout = (LinearLayout) findViewById(R.id.list_layout);
         Button addButton = new Button(this);
 
+        listLayout.setOrientation(LinearLayout.VERTICAL);
+
         inputFields[0] = findViewById(R.id.input1);
         inputFields[1] = findViewById(R.id.input2);
         inputFields[2] = findViewById(R.id.input3);
         inputFields[3] = findViewById(R.id.input4);
         inputFields[4] = findViewById(R.id.input5);
 
+        tvList[0] = findViewById(R.id.textView71);
+        tvList[0] = findViewById(R.id.textView70);
+        tvList[0] = findViewById(R.id.textView69);
+        tvList[0] = findViewById(R.id.textView68);
+        tvList[0] = findViewById(R.id.textView67);
+        tvList[0] = findViewById(R.id.textView66);
+        tvList[0] = findViewById(R.id.textView65);
+        tvList[0] = findViewById(R.id.textView64);
+        tvList[0] = findViewById(R.id.textView63);
+        tvList[0] = findViewById(R.id.textView62);
+        tvList[0] = findViewById(R.id.textView61);
+        tvList[0] = findViewById(R.id.textView60);
+        tvList[0] = findViewById(R.id.textView59);
+        tvList[0] = findViewById(R.id.textView58);
+        tvList[0] = findViewById(R.id.textView57);
+        tvList[0] = findViewById(R.id.textView56);
+        tvList[0] = findViewById(R.id.textView55);
+        tvList[0] = findViewById(R.id.textView54);
 
-        tvFileViewer = (TextView) findViewById(R.id.textLine0);
 
     }
 }
