@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -145,11 +146,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void displayList(String[] list) {
         hideKeyboard();
-
-        for(int i = 0; i < tvList.length; i++) {
-            tvList[i].setText(list[i]);
+        String toTV = "";
+        for(int i = 0; i < list.length; i++) {
+            toTV = list[i] + "\n";
         }
-        showTVlist();
+        Log.d("asd", toTV);
+        TextView tv = findViewById(R.id.textView71);
+        tv.setText(toTV);
     }
 
     public void setupComplete() {
@@ -175,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveProfile(View v) {
+        hideKeyboard();
         TextView out = findViewById(R.id.out);
         out.setText(inputFields[0].getText());
         String[] oldData = data;
@@ -193,7 +197,11 @@ public class MainActivity extends AppCompatActivity {
         newData[count+4] = inputFields[3].getText().toString();
         newData[count+5] = inputFields[4].getText().toString();
 
-        displayList(newData);
+        //displayList(newData);
+        TextView tv = findViewById(R.id.textView71);
+        tv.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        Log.d("asd", inputFields[0].getText().toString() + "\n" + inputFields[1].getText().toString() + "\n" + inputFields[2].getText().toString());
+        tv.setText(inputFields[0].getText().toString() + "\n" + inputFields[1].getText().toString() + "\n" + inputFields[2].getText().toString());
 
         hideEverything();
         createProfile.setVisibility(View.VISIBLE);
@@ -220,8 +228,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void showTVlist() {
         for(int i = 0; i < tvList.length; i++) {
-            tvList[i].setVisibility(View.VISIBLE);
-            Log.d("asd", tvList[i].getText().toString());
         }
     }
 
@@ -241,25 +247,6 @@ public class MainActivity extends AppCompatActivity {
         inputFields[2] = findViewById(R.id.input3);
         inputFields[3] = findViewById(R.id.input4);
         inputFields[4] = findViewById(R.id.input5);
-
-        tvList[0] = findViewById(R.id.textView71);
-        tvList[0] = findViewById(R.id.textView70);
-        tvList[0] = findViewById(R.id.textView69);
-        tvList[0] = findViewById(R.id.textView68);
-        tvList[0] = findViewById(R.id.textView67);
-        tvList[0] = findViewById(R.id.textView66);
-        tvList[0] = findViewById(R.id.textView65);
-        tvList[0] = findViewById(R.id.textView64);
-        tvList[0] = findViewById(R.id.textView63);
-        tvList[0] = findViewById(R.id.textView62);
-        tvList[0] = findViewById(R.id.textView61);
-        tvList[0] = findViewById(R.id.textView60);
-        tvList[0] = findViewById(R.id.textView59);
-        tvList[0] = findViewById(R.id.textView58);
-        tvList[0] = findViewById(R.id.textView57);
-        tvList[0] = findViewById(R.id.textView56);
-        tvList[0] = findViewById(R.id.textView55);
-        tvList[0] = findViewById(R.id.textView54);
 
 
     }
