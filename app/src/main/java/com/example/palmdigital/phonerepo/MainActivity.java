@@ -148,10 +148,13 @@ public class MainActivity extends AppCompatActivity {
         hideKeyboard();
         String toTV = "";
         for(int i = 0; i < list.length; i++) {
-            toTV = list[i] + "\n";
+            if(list[i] ==  null) { list[i] = "blank"; } else {
+                toTV = toTV + list[i] + "\n";
+            }
         }
         Log.d("asd", toTV);
         TextView tv = findViewById(R.id.textView71);
+        tv.setVisibility(View.VISIBLE);
         tv.setText(toTV);
     }
 
@@ -160,6 +163,8 @@ public class MainActivity extends AppCompatActivity {
         createProfile.setVisibility(View.VISIBLE);
         deleteProfile.setVisibility(View.VISIBLE);
         showTVlist();
+        TextView tv = findViewById(R.id.textView71);
+        tv.setVisibility(View.VISIBLE);
     }
 
     public void showProfileList() {
@@ -179,10 +184,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveProfile(View v) {
         hideKeyboard();
-        TextView out = findViewById(R.id.out);
-        out.setText(inputFields[0].getText());
         String[] oldData = data;
-        String[] newData = new String[oldData.length+6];
+        String[] newData = new String[6];
 
         int count = 0;
         for(int i = 0; i < oldData.length; i++) {
@@ -191,19 +194,15 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        newData[count+1] = inputFields[0].getText().toString();
-        newData[count+2] = inputFields[1].getText().toString();
-        newData[count+3] = inputFields[2].getText().toString();
-        newData[count+4] = inputFields[3].getText().toString();
-        newData[count+5] = inputFields[4].getText().toString();
-
-        //displayList(newData);
-        TextView tv = findViewById(R.id.textView71);
-        tv.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        Log.d("asd", inputFields[0].getText().toString() + "\n" + inputFields[1].getText().toString() + "\n" + inputFields[2].getText().toString());
-        tv.setText(inputFields[0].getText().toString() + "\n" + inputFields[1].getText().toString() + "\n" + inputFields[2].getText().toString());
+        newData[0] = inputFields[0].getText().toString();
+        newData[1] = inputFields[1].getText().toString();
+        newData[2] = inputFields[2].getText().toString();
+        newData[3] = inputFields[3].getText().toString();
+        newData[4] = inputFields[4].getText().toString();
 
         hideEverything();
+        displayList(newData);
+
         createProfile.setVisibility(View.VISIBLE);
         deleteProfile.setVisibility(View.VISIBLE);
     }

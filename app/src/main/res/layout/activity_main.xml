@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
 
         <EditText
@@ -98,11 +98,6 @@
             android:onClick="saveProfile"
             android:text="save profile" />
 
-        <TextView
-            android:id="@+id/out"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
     </LinearLayout>
 
     <ScrollView
@@ -125,7 +120,8 @@
                 android:maxLines="100"
                 android:minLines="1"
                 android:singleLine="false"
-                android:text="q\na\nz" />
+                android:text="-"
+                android:visibility="visible" />
 
         </LinearLayout>
 
