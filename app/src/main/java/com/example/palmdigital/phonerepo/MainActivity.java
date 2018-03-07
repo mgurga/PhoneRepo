@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     File dataFile = new File(dataPath, "data.txt");
 
     TextView[] tvList = new TextView[100];
+    TextView listtv;
 
     EditText[] inputFields = new EditText[5];
 
@@ -148,14 +149,11 @@ public class MainActivity extends AppCompatActivity {
         hideKeyboard();
         String toTV = "";
         for(int i = 0; i < list.length; i++) {
-            if(list[i] ==  null) { list[i] = "blank"; } else {
-                toTV = toTV + list[i] + "\n";
-            }
+            toTV = toTV + list[i] + "\n";
         }
         Log.d("asd", toTV);
-        TextView tv = findViewById(R.id.textView71);
-        tv.setVisibility(View.VISIBLE);
-        tv.setText(toTV);
+        listtv.setVisibility(View.VISIBLE);
+        listtv.setText(toTV);
     }
 
     public void setupComplete() {
@@ -239,6 +237,8 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout listLayout = (LinearLayout) findViewById(R.id.list_layout);
         Button addButton = new Button(this);
 
+        listtv = (TextView) findViewById(R.id.textView71);
+        listtv.setVisibility(View.VISIBLE);
         listLayout.setOrientation(LinearLayout.VERTICAL);
 
         inputFields[0] = findViewById(R.id.input1);
