@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import static android.provider.Telephony.Mms.Part.FILENAME;
-
 public class MainActivity extends AppCompatActivity {
     String phoneFilename = "phonerepo";
     String saveString = "ASDASDAS";
@@ -43,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     Button createProfile;
     Button deleteProfile;
 
+    String representSpaceInData = "&#&";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         writeToData(testArray);
         data = loadTextFile(dataFile);
         setupComplete();
-
 
     }
 
@@ -147,13 +147,20 @@ public class MainActivity extends AppCompatActivity {
 
     public void displayList(String[] list) {
         hideKeyboard();
+        String representsNothing = "/";
         String toTV = "";
         for(int i = 0; i < list.length; i++) {
+
+            if(list[i] == null) {list[i]=representsNothing;}
+            if(list[i] == " ") {list[i]=representsNothing;}
+            if(list[i] == "") {list[i]=representsNothing;}
+
             toTV = toTV + list[i] + "\n";
         }
         Log.d("asd", toTV);
         listtv.setVisibility(View.VISIBLE);
         listtv.setText(toTV);
+
     }
 
     public void setupComplete() {
@@ -183,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
     public void saveProfile(View v) {
         hideKeyboard();
         String[] oldData = data;
-        String[] newData = new String[6];
+        String[] newData = new String[inputFields.length];
 
         int count = 0;
         for(int i = 0; i < oldData.length; i++) {
@@ -192,17 +199,26 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        newData[0] = inputFields[0].getText().toString();
-        newData[1] = inputFields[1].getText().toString();
-        newData[2] = inputFields[2].getText().toString();
-        newData[3] = inputFields[3].getText().toString();
-        newData[4] = inputFields[4].getText().toString();
+        for(int i = 0; i < inputFields.length; i++) {
+            newData[i] = inputFields[i].getText().toString();
+            if (newData[i].matches("")) {
+                newData[i] = null;
+            }
+        }
 
         hideEverything();
         displayList(newData);
-
         createProfile.setVisibility(View.VISIBLE);
         deleteProfile.setVisibility(View.VISIBLE);
+
+        Log.d("asd", "Saveing to data.txt");
+        String[] newDataWSpc = new String[newData.length+1];
+        for(int i = 0; i < newData.length-1; i++) {
+            newDataWSpc[i+1] = newData[i];
+        }
+        newDataWSpc[0] = representSpaceInData;
+        String[] combine = ArrayUtils.addAll(loadTextFile(dataFile), newDataWSpc);
+        writeToData(combine);
     }
 
     public void hidetvFileManager() {
@@ -234,18 +250,22 @@ public class MainActivity extends AppCompatActivity {
         deleteProfile = (Button)findViewById(R.id.deleteProfile);
         saveProfile = (Button)findViewById(R.id.saveProfile);
 
-        LinearLayout listLayout = (LinearLayout) findViewById(R.id.list_layout);
         Button addButton = new Button(this);
 
         listtv = (TextView) findViewById(R.id.textView71);
         listtv.setVisibility(View.VISIBLE);
-        listLayout.setOrientation(LinearLayout.VERTICAL);
 
         inputFields[0] = findViewById(R.id.input1);
         inputFields[1] = findViewById(R.id.input2);
         inputFields[2] = findViewById(R.id.input3);
         inputFields[3] = findViewById(R.id.input4);
         inputFields[4] = findViewById(R.id.input5);
+
+        inputFields[0].setVisibility(View.GONE);
+        inputFields[1].setVisibility(View.GONE);
+        inputFields[2].setVisibility(View.GONE);
+        inputFields[3].setVisibility(View.GONE);
+        inputFields[4].setVisibility(View.GONE);
 
 
     }

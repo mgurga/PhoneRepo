@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.widget.ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -33,20 +32,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="serif-monospace"
+                    android:fontFamily="monospace"
                     android:onClick="creProfile"
-                    android:text="Create Profile"
-                    android:textSize="16sp" />
+                    android:text="@string/create_profile"
+                    android:textSize="16sp"
+                    tools:ignore="ButtonStyle"
+                    tools:targetApi="jelly_bean" />
 
                 <Button
                     android:id="@+id/deleteProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="serif-monospace"
+                    android:fontFamily="monospace"
                     android:onClick="delProfile"
-                    android:text="Delete Profile"
-                    android:textSize="16sp" />
+                    android:text="@string/delete_profile"
+                    android:textSize="16sp"
+                    tools:ignore="ButtonStyle"
+                    tools:targetApi="jelly_bean" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -63,9 +67,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:hint="title"
-                    android:inputType="text"
-                    android:text=" " />
+                    android:fontFamily="monospace"
+                    android:hint="@string/title"
+                    android:inputType="text" />
 
                 <EditText
                     android:id="@+id/input2"
@@ -73,8 +77,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="text"
-                    android:text=" " />
+                    android:fontFamily="monospace"
+                    android:inputType="text" />
 
                 <EditText
                     android:id="@+id/input3"
@@ -82,8 +86,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="text"
-                    android:text=" " />
+                    android:fontFamily="monospace"
+                    android:inputType="text" />
 
                 <EditText
                     android:id="@+id/input4"
@@ -91,8 +95,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="text"
-                    android:text=" " />
+                    android:fontFamily="monospace"
+                    android:inputType="text" />
 
                 <EditText
                     android:id="@+id/input5"
@@ -100,48 +104,35 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="text"
-                    android:text=" " />
+                    android:fontFamily="monospace"
+                    android:inputType="text" />
 
                 <Button
                     android:id="@+id/saveProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="monospace"
                     android:onClick="saveProfile"
-                    android:text="save profile" />
+                    android:text="@string/save_profile" />
 
             </LinearLayout>
 
-            <ScrollView
-                android:id="@+id/list"
+            <TextView
+                android:id="@+id/textView71"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-
-                <LinearLayout
-                    android:id="@+id/list_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/textView71"
-                        android:layout_width="match_parent"
-                        android:layout_height="1000dp"
-                        android:lines="100"
-                        android:maxLines="100"
-                        android:minLines="1"
-                        android:singleLine="false"
-                        android:text="-"
-                        android:textSize="24sp"
-                        android:visibility="visible" />
-
-                </LinearLayout>
-
-            </ScrollView>
+                android:layout_height="match_parent"
+                android:fontFamily="monospace"
+                android:lines="100"
+                android:maxLines="100"
+                android:minLines="1"
+                android:singleLine="false"
+                android:text="@string/blank_placeholder"
+                android:textSize="24sp"
+                android:visibility="visible" tools:targetApi="jelly_bean" />
 
         </android.widget.LinearLayout>
 
     </LinearLayout>
+
 </android.widget.ScrollView>
