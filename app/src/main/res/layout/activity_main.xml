@@ -21,6 +21,27 @@
             android:visibility="visible"
             tools:context="com.example.palmdigital.phonerepo.MainActivity">
 
+            <Button
+                android:id="@+id/settingsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="monospace"
+                android:onClick="settings"
+                android:text="Settings"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/clearDataButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="monospace"
+                android:onClick="clearData"
+                android:text="Clear Data"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/profileButtons"
                 android:layout_width="match_parent"

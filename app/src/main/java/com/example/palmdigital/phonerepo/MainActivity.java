@@ -24,12 +24,17 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 import static android.provider.Telephony.Mms.Part.FILENAME;
 public class MainActivity extends AppCompatActivity {
     String phoneFilename = "phonerepo";
     String saveString = "ASDASDAS";
+    String representsNothing = ".";
+    String representSpaceInData = "&#&";
     String[] data;
+
     File dataPath = new File(Environment.getExternalStorageDirectory() + "/phonerepo/");
     File dataFile = new File(dataPath, "data.txt");
 
@@ -42,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     Button createProfile;
     Button deleteProfile;
 
-    String representSpaceInData = "&#&";
+    boolean settingsOpen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setup();
-        String[] testArray = new String[10];
+        String[] testArray = new String[2];
         testArray[0] = "hello";
         testArray[1] = "world";
         writeToData(testArray);
@@ -147,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void displayList(String[] list) {
         hideKeyboard();
-        String representsNothing = "/";
         String toTV = "";
         for(int i = 0; i < list.length; i++) {
 
@@ -180,6 +184,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void creProfile(View v) {
         hideEverything();
+
+        Button settings = findViewById(R.id.settingsButton);
+        settings.setVisibility(View.GONE);
+
         for(int i = 0; i < inputFields.length; i++) {
             inputFields[i].setVisibility(View.VISIBLE);
         }
@@ -191,6 +199,9 @@ public class MainActivity extends AppCompatActivity {
         hideKeyboard();
         String[] oldData = data;
         String[] newData = new String[inputFields.length];
+
+        Button settings = findViewById(R.id.settingsButton);
+        settings.setVisibility(View.VISIBLE);
 
         int count = 0;
         for(int i = 0; i < oldData.length; i++) {
@@ -207,7 +218,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         hideEverything();
-        displayList(newData);
         createProfile.setVisibility(View.VISIBLE);
         deleteProfile.setVisibility(View.VISIBLE);
 
@@ -217,8 +227,21 @@ public class MainActivity extends AppCompatActivity {
             newDataWSpc[i+1] = newData[i];
         }
         newDataWSpc[0] = representSpaceInData;
-        String[] combine = ArrayUtils.addAll(loadTextFile(dataFile), newDataWSpc);
+
+        String[] combine = new String[loadTextFile(dataFile).length+newDataWSpc.length];
+        String[] dataLoad = loadTextFile(dataFile);
+
+        for(int i = 0; i < dataLoad.length; i++) {
+            combine[i] = dataLoad[i];
+        }
+        for(int i = 0; i < newDataWSpc.length; i++) {
+            combine[dataLoad.length+i] = newDataWSpc[i];
+        }
+
         writeToData(combine);
+
+        dataLoad = loadTextFile(dataFile);
+        displayList(dataLoad);
     }
 
     public void hidetvFileManager() {
@@ -227,6 +250,38 @@ public class MainActivity extends AppCompatActivity {
 
     public void delProfile(View v) {
 
+    }
+
+    public void settings(View v) {
+        if(settingsOpen == false) {
+            settingsOpen = true;
+        } else {
+            settingsOpen = false;
+        }
+
+        if(settingsOpen == true) {
+            hideEverything();
+            Button clearSettings = findViewById(R.id.clearDataButton);
+            clearSettings.setVisibility(View.VISIBLE);
+        } else {
+            Button clearSettings = findViewById(R.id.clearDataButton);
+            clearSettings.setVisibility(View.GONE);
+            setupComplete();
+        }
+
+    }
+
+    public void clearData(View v) {
+        String[] restore = new String[2];
+        restore[0] = "hello";
+        restore[1] = "world";
+        writeToData(restore);
+        hideEverything();
+        Button clearSettings = findViewById(R.id.clearDataButton);
+        clearSettings.setVisibility(View.GONE);
+        createProfile.setVisibility(View.VISIBLE);
+        deleteProfile.setVisibility(View.VISIBLE);
+        displayList(loadTextFile(dataFile));
     }
 
     public void hideEverything() {
