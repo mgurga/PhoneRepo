@@ -2,6 +2,7 @@ package com.example.palmdigital.phonerepo;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,18 +35,29 @@ public class MainActivity extends AppCompatActivity {
     String representsNothing = ".";
     String representSpaceInData = "&#&";
     String[] data;
+    String[][] profileDataFiles = new String[100][1000];
+
+    int numOfProfiles = 0;
 
     File dataPath = new File(Environment.getExternalStorageDirectory() + "/phonerepo/");
     File dataFile = new File(dataPath, "data.txt");
-
-    TextView[] tvList = new TextView[100];
-    TextView listtv;
+    File profilePath = new File(Environment.getExternalStorageDirectory() + "/phonerepo/profiledata");
 
     EditText[] inputFields = new EditText[5];
 
     Button saveProfile;
     Button createProfile;
     Button deleteProfile;
+    Button settingsButton;
+    Button editButton1;
+    Button editButton2;
+    Button editButton3;
+
+    TextView[] editButton1tvs = new TextView[4];
+    TextView[] editButton2tvs = new TextView[4];
+    TextView[] editButton3tvs = new TextView[4];
+    TextView[] tvList = new TextView[100];
+    TextView listtv;
 
     boolean settingsOpen = false;
 
@@ -92,8 +104,21 @@ public class MainActivity extends AppCompatActivity {
         if (!file.exists()) {
             file.mkdirs();
         }
+
+        if(!profilePath.exists()) {
+            profilePath.mkdirs();
+        }
+
         File dataFile = new File(Environment.getExternalStorageDirectory() + "/phonerepo/",
                 dataFileName);
+        if (!dataFile.exists()) {
+            try {
+                dataFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (!dataFile.exists()) {
             try {
                 dataFile.createNewFile();
@@ -161,7 +186,6 @@ public class MainActivity extends AppCompatActivity {
 
             toTV = toTV + list[i] + "\n";
         }
-        Log.d("asd", toTV);
         listtv.setVisibility(View.VISIBLE);
         listtv.setText(toTV);
 
@@ -171,14 +195,24 @@ public class MainActivity extends AppCompatActivity {
         hideEverything();
         createProfile.setVisibility(View.VISIBLE);
         deleteProfile.setVisibility(View.VISIBLE);
-        showTVlist();
         TextView tv = findViewById(R.id.textView71);
         tv.setVisibility(View.VISIBLE);
+        changeEditVisibility(false);
     }
 
-    public void showProfileList() {
+    public void editProfile(View v) {
+        hideEverything();
+        settingsButton.setVisibility(View.GONE);
+        listtv.setVisibility(View.GONE);
+        changeEditVisibility(true);
+
+        String[] dataLoad = loadTextFile(dataFile);
 
 
+
+        for(int i = 0; i < dataLoad.length-2; i++) {
+            dataLoad[i] = dataLoad[i+2];
+        }
 
     }
 
@@ -221,12 +255,17 @@ public class MainActivity extends AppCompatActivity {
         createProfile.setVisibility(View.VISIBLE);
         deleteProfile.setVisibility(View.VISIBLE);
 
-        Log.d("asd", "Saveing to data.txt");
+        inputFields[0].setText("");
+        inputFields[1].setText("");
+        inputFields[2].setText("");
+        inputFields[3].setText("");
+        inputFields[4].setText("");
+
         String[] newDataWSpc = new String[newData.length+1];
-        for(int i = 0; i < newData.length-1; i++) {
-            newDataWSpc[i+1] = newData[i];
+        for(int i = 0; i < newData.length; i++) {
+            newDataWSpc[i] = newData[i];
         }
-        newDataWSpc[0] = representSpaceInData;
+        newDataWSpc[newData.length] = representSpaceInData;
 
         String[] combine = new String[loadTextFile(dataFile).length+newDataWSpc.length];
         String[] dataLoad = loadTextFile(dataFile);
@@ -237,6 +276,13 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < newDataWSpc.length; i++) {
             combine[dataLoad.length+i] = newDataWSpc[i];
         }
+
+
+
+        for(int i = 0; i < newDataWSpc.length; i++) {
+            profileDataFiles[numOfProfiles][i] = newDataWSpc[i];
+        }
+        numOfProfiles++;
 
         writeToData(combine);
 
@@ -250,6 +296,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void delProfile(View v) {
 
+    }
+    public void changeEditVisibility(boolean showorhide) {
+        if(showorhide == true) {
+            for (int i = 0; i < 4; i++) {
+                editButton3tvs[i].setVisibility(View.VISIBLE);
+                editButton2tvs[i].setVisibility(View.VISIBLE);
+                editButton1tvs[i].setVisibility(View.VISIBLE);
+            }
+            editButton3.setVisibility(View.VISIBLE);
+            editButton2.setVisibility(View.VISIBLE);
+            editButton1.setVisibility(View.VISIBLE);
+        } else {
+            for (int i = 0; i < 4; i++) {
+                editButton3tvs[i].setVisibility(View.GONE);
+                editButton2tvs[i].setVisibility(View.GONE);
+                editButton1tvs[i].setVisibility(View.GONE);
+            }
+            editButton3.setVisibility(View.GONE);
+            editButton2.setVisibility(View.GONE);
+            editButton1.setVisibility(View.GONE);
+        }
     }
 
     public void settings(View v) {
@@ -294,11 +361,6 @@ public class MainActivity extends AppCompatActivity {
         saveProfile.setVisibility(View.GONE);
     }
 
-    public void showTVlist() {
-        for(int i = 0; i < tvList.length; i++) {
-        }
-    }
-
     public void initializeVariables() {
         //Buttons, Textviews, and Editviews
         createProfile = (Button)findViewById(R.id.createProfile);
@@ -306,6 +368,25 @@ public class MainActivity extends AppCompatActivity {
         saveProfile = (Button)findViewById(R.id.saveProfile);
 
         Button addButton = new Button(this);
+        settingsButton =findViewById(R.id.settingsButton);
+        editButton1 = findViewById(R.id.editButton1);
+        editButton2 = findViewById(R.id.editButton2);
+        editButton3 = findViewById(R.id.editButton3);
+
+        editButton1tvs[0] = findViewById(R.id.button1tv1);
+        editButton1tvs[1] = findViewById(R.id.button1tv2);
+        editButton1tvs[2] = findViewById(R.id.button1tv3);
+        editButton1tvs[3] = findViewById(R.id.button1tv4);
+
+        editButton2tvs[0] = findViewById(R.id.button2tv1);
+        editButton2tvs[1] = findViewById(R.id.button2tv2);
+        editButton2tvs[2] = findViewById(R.id.button2tv3);
+        editButton2tvs[3] = findViewById(R.id.button2tv4);
+
+        editButton3tvs[0] = findViewById(R.id.button3tv1);
+        editButton3tvs[1] = findViewById(R.id.button3tv2);
+        editButton3tvs[2] = findViewById(R.id.button3tv3);
+        editButton3tvs[3] = findViewById(R.id.button3tv4);
 
         listtv = (TextView) findViewById(R.id.textView71);
         listtv.setVisibility(View.VISIBLE);

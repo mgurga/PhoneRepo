@@ -1,159 +1,264 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.widget.ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:visibility="visible"
     tools:context="com.example.palmdigital.phonerepo.MainActivity">
 
-    <LinearLayout
+    <android.widget.LinearLayout
+        android:id="@+id/main_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="visible"
+        tools:context="com.example.palmdigital.phonerepo.MainActivity">
 
-        <android.widget.LinearLayout
-            android:id="@+id/linear_layout"
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="monospace"
+            android:onClick="settings"
+            android:text="Settings"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/clearDataButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="monospace"
+            android:onClick="clearData"
+            android:text="Clear Data"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/profileButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/createProfile"
+                android:layout_width="145dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="monospace"
+                android:onClick="creProfile"
+                android:text="@string/create_profile"
+                android:textSize="16sp"
+                tools:ignore="ButtonStyle"
+                tools:targetApi="jelly_bean" />
+
+            <Button
+                android:id="@+id/deleteProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="monospace"
+                android:onClick="editProfile"
+                android:text="@string/edit_profile"
+                android:textSize="16sp"
+                tools:ignore="ButtonStyle"
+                tools:targetApi="jelly_bean" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="552dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="-------------------------------------------------------------------------------------------------------------------" />
+
+        <LinearLayout
+            android:id="@+id/inputs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:visibility="visible"
-            tools:context="com.example.palmdigital.phonerepo.MainActivity">
+            tools:context="com.example.palmdigital.phonerepo.newProfile">
 
-            <Button
-                android:id="@+id/settingsButton"
+            <EditText
+                android:id="@+id/input1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:ems="10"
                 android:fontFamily="monospace"
-                android:onClick="settings"
-                android:text="Settings"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/clearDataButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="monospace"
-                android:onClick="clearData"
-                android:text="Clear Data"
-                android:textSize="16sp"
+                android:hint="@string/title"
+                android:inputType="text"
                 android:visibility="gone" />
 
-            <LinearLayout
-                android:id="@+id/profileButtons"
+            <EditText
+                android:id="@+id/input2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:ems="10"
+                android:fontFamily="monospace"
+                android:inputType="text"
+                android:visibility="gone" />
 
-                <Button
-                    android:id="@+id/createProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="monospace"
-                    android:onClick="creProfile"
-                    android:text="@string/create_profile"
-                    android:textSize="16sp"
-                    tools:ignore="ButtonStyle"
-                    tools:targetApi="jelly_bean" />
-
-                <Button
-                    android:id="@+id/deleteProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="monospace"
-                    android:onClick="delProfile"
-                    android:text="@string/delete_profile"
-                    android:textSize="16sp"
-                    tools:ignore="ButtonStyle"
-                    tools:targetApi="jelly_bean" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/input_layout"
+            <EditText
+                android:id="@+id/input3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="visible">
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:fontFamily="monospace"
+                android:inputType="text"
+                android:visibility="gone" />
 
+            <EditText
+                android:id="@+id/input4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:fontFamily="monospace"
+                android:inputType="text"
+                android:visibility="gone" />
 
-                <EditText
-                    android:id="@+id/input1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:fontFamily="monospace"
-                    android:hint="@string/title"
-                    android:inputType="text" />
+            <EditText
+                android:id="@+id/input5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:fontFamily="monospace"
+                android:inputType="text"
+                android:visibility="gone" />
 
-                <EditText
-                    android:id="@+id/input2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:fontFamily="monospace"
-                    android:inputType="text" />
+            <Button
+                android:id="@+id/saveProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="monospace"
+                android:onClick="saveProfile"
+                android:text="@string/save_profile"
+                android:visibility="gone" />
 
-                <EditText
-                    android:id="@+id/input3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:fontFamily="monospace"
-                    android:inputType="text" />
+        </LinearLayout>
 
-                <EditText
-                    android:id="@+id/input4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:fontFamily="monospace"
-                    android:inputType="text" />
+        <TextView
+            android:id="@+id/textView71"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="monospace"
+            android:lines="100"
+            android:maxLines="100"
+            android:minLines="1"
+            android:singleLine="false"
+            android:textSize="24sp"
+            android:visibility="visible"
+            tools:targetApi="jelly_bean" />
 
-                <EditText
-                    android:id="@+id/input5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:fontFamily="monospace"
-                    android:inputType="text" />
+        <LinearLayout
+            android:id="@+id/edit_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/saveProfile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="monospace"
-                    android:onClick="saveProfile"
-                    android:text="@string/save_profile" />
-
-            </LinearLayout>
+            <Button
+                android:id="@+id/editButton1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
 
             <TextView
-                android:id="@+id/textView71"
+                android:id="@+id/button1tv1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fontFamily="monospace"
-                android:lines="100"
-                android:maxLines="100"
-                android:minLines="1"
-                android:singleLine="false"
-                android:text="@string/blank_placeholder"
-                android:textSize="24sp"
-                android:visibility="visible" tools:targetApi="jelly_bean" />
+                android:layout_height="wrap_content"
+                android:text="TextView" />
 
-        </android.widget.LinearLayout>
+            <TextView
+                android:id="@+id/button1tv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/button1tv3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
 
+            <TextView
+                android:id="@+id/button1tv4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <Button
+                android:id="@+id/editButton2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+
+            <TextView
+                android:id="@+id/button2tv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/button2tv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/button2tv3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/button2tv4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <Button
+                android:id="@+id/editButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Button" />
+
+            <TextView
+                android:id="@+id/button3tv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/button3tv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/button3tv3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/button3tv4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+        </LinearLayout>
+
+    </android.widget.LinearLayout>
 </android.widget.ScrollView>
