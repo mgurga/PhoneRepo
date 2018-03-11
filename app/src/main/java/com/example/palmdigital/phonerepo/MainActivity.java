@@ -1,39 +1,30 @@
 package com.example.palmdigital.phonerepo;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.stream.Stream;
 
-import static android.provider.Telephony.Mms.Part.FILENAME;
 public class MainActivity extends AppCompatActivity {
     String phoneFilename = "phonerepo";
     String saveString = "ASDASDAS";
     String representsNothing = ".";
-    String representSpaceInData = "&#&";
+    String representEndInData = "&#&";
+    String representsStartInData = "%#%";
     String[] data;
     String[][] profileDataFiles = new String[100][1000];
 
@@ -208,12 +199,92 @@ public class MainActivity extends AppCompatActivity {
 
         String[] dataLoad = loadTextFile(dataFile);
 
-
-
         for(int i = 0; i < dataLoad.length-2; i++) {
-            dataLoad[i] = dataLoad[i+2];
+            dataLoad[i+1] = dataLoad[i+2];
+            if(dataLoad[i] == null || dataLoad[i] == "" || dataLoad[i] == " ") {
+                dataLoad[i] = representsNothing;
+            }
+        }
+        dataLoad[0] = representEndInData;
+        dataLoad[dataLoad.length-1] = representsNothing;
+        dataLoad[dataLoad.length-2] = representsNothing;
+
+
+
+        int count = 0;
+        int saves = -1;
+        String[] tempDataLoad = new String[dataLoad.length];
+        boolean reading = false;
+
+        for(int i = 0; i < dataLoad.length-1; i++) {
+            dataLoad[i] = dataLoad[i+1];
         }
 
+        for(int i = 0; i < dataLoad.length; i++) {
+            if(dataLoad[i].equals(representsStartInData)) {
+                reading = true;
+                Log.d("asd", "new start");
+                for(int c = 0; c < tempDataLoad.length; c++) {
+                    tempDataLoad[c] = representsNothing;
+                }
+            }
+
+            if(dataLoad[i].equals(representEndInData)) {
+                reading = false;
+                saves++;
+                Log.d("asd", "next save");
+                Log.d("asd", tempDataLoad[1]);
+                profileDataFiles[saves] = tempDataLoad;
+                count = 0;
+            }
+
+            if(reading == true) {
+                tempDataLoad[count] = dataLoad[i];
+                count++;
+            }
+
+        }
+
+
+
+        for(int i = 0; i < profileDataFiles[0].length-1; i++) {
+            profileDataFiles[0][i] = profileDataFiles[0][i+1];
+        }
+
+        count=0;
+        int countMini = 0;
+        for(int i = 0; i < profileDataFiles.length; i++) {
+
+            if(profileDataFiles[count][countMini] == representEndInData) {
+                profileDataFiles[count][countMini] = representsNothing;
+            }
+
+            Log.d("asd", "[" + count + "]" + "[" + countMini + "]"  + profileDataFiles[count][countMini]);
+
+            if(countMini > 10) {
+                count++;
+                countMini=-1;
+            }
+
+            countMini++;
+        }
+
+    }
+
+    public void editBack(View v) {
+        hideEverything();
+        createProfile.setVisibility(View.VISIBLE);
+        deleteProfile.setVisibility(View.VISIBLE);
+        listtv.setVisibility(View.VISIBLE);
+    }
+
+    public void printList(String[] list) {
+        for(int i = 0; i < list.length; i++) {
+            if(list[i] == null) {
+                list[i] = representsNothing;
+            }
+            Log.d("asd", list[i]);
+        }
     }
 
     public void creProfile(View v) {
@@ -261,11 +332,12 @@ public class MainActivity extends AppCompatActivity {
         inputFields[3].setText("");
         inputFields[4].setText("");
 
-        String[] newDataWSpc = new String[newData.length+1];
+        String[] newDataWSpc = new String[newData.length+2];
         for(int i = 0; i < newData.length; i++) {
-            newDataWSpc[i] = newData[i];
+            newDataWSpc[i+1] = newData[i];
         }
-        newDataWSpc[newData.length] = representSpaceInData;
+        newDataWSpc[0] = representsStartInData;
+        newDataWSpc[newData.length+1] = representEndInData;
 
         String[] combine = new String[loadTextFile(dataFile).length+newDataWSpc.length];
         String[] dataLoad = loadTextFile(dataFile);
@@ -276,13 +348,6 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < newDataWSpc.length; i++) {
             combine[dataLoad.length+i] = newDataWSpc[i];
         }
-
-
-
-        for(int i = 0; i < newDataWSpc.length; i++) {
-            profileDataFiles[numOfProfiles][i] = newDataWSpc[i];
-        }
-        numOfProfiles++;
 
         writeToData(combine);
 
