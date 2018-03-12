@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
                 reading = false;
                 saves++;
                 Log.d("asd", "next save");
-                Log.d("asd", tempDataLoad[1]);
+                printList(tempDataLoad);
                 profileDataFiles[saves] = tempDataLoad;
                 count = 0;
             }
