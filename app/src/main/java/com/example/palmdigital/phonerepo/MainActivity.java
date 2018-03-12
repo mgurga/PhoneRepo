@@ -198,6 +198,8 @@ public class MainActivity extends AppCompatActivity {
         changeEditVisibility(true);
 
         String[] dataLoad = loadTextFile(dataFile);
+        String[] blankList = new String[100];
+        blankList = fixListNulls(blankList);
 
         for(int i = 0; i < dataLoad.length-2; i++) {
             dataLoad[i+1] = dataLoad[i+2];
@@ -209,33 +211,31 @@ public class MainActivity extends AppCompatActivity {
         dataLoad[dataLoad.length-1] = representsNothing;
         dataLoad[dataLoad.length-2] = representsNothing;
 
-
-
         int count = 0;
         int saves = -1;
         String[] tempDataLoad = new String[dataLoad.length];
         boolean reading = false;
 
-        for(int i = 0; i < dataLoad.length-1; i++) {
-            dataLoad[i] = dataLoad[i+1];
-        }
+        dataLoad = moveDownBy(dataLoad, 1);
+
+        printList(dataLoad);
 
         for(int i = 0; i < dataLoad.length; i++) {
+            if(dataLoad[i].equals(representEndInData)) {
+                reading = false;
+                saves++;
+                Log.d("asd", "next save at " + saves);
+                //printList(tempDataLoad);
+                saveListTo(tempDataLoad, profileDataFiles[saves]);
+                count = 0;
+            }
+
             if(dataLoad[i].equals(representsStartInData)) {
                 reading = true;
                 Log.d("asd", "new start");
                 for(int c = 0; c < tempDataLoad.length; c++) {
                     tempDataLoad[c] = representsNothing;
                 }
-            }
-
-            if(dataLoad[i].equals(representEndInData)) {
-                reading = false;
-                saves++;
-                Log.d("asd", "next save");
-                printList(tempDataLoad);
-                profileDataFiles[saves] = tempDataLoad;
-                count = 0;
             }
 
             if(reading == true) {
@@ -251,15 +251,43 @@ public class MainActivity extends AppCompatActivity {
             profileDataFiles[0][i] = profileDataFiles[0][i+1];
         }
 
-        count=0;
-        int countMini = 0;
-        for(int i = 0; i < profileDataFiles.length; i++) {
+        print2DList(profileDataFiles);
 
-            if(profileDataFiles[count][countMini] == representEndInData) {
-                profileDataFiles[count][countMini] = representsNothing;
+    }
+
+    public void saveListTo(String[] from, String[] to) {
+        for(int i = 0; i < to.length; i++) {
+            to[i] = from[i];
+        }
+    }
+
+    public String[] moveDownBy(String[] list, int downBy) {
+        for(int i = 0; i < list.length - downBy; i++) {
+            list[i] = list[i+1];
+        }
+        list = fixListNulls(list);
+        return list;
+    }
+
+    public String[] fixListNulls(String[] list) {
+        for(int i = 0; i < list.length; i++) {
+            if(list[i] == null) {
+                list[i] = representsNothing;
+            }
+        }
+        return list;
+    }
+
+    public void print2DList(String[][] list2d) {
+        int count=0;
+        int countMini = 0;
+        for(int i = 0; i < list2d.length; i++) {
+
+            if(list2d[count][countMini] == representEndInData) {
+                list2d[count][countMini] = representsNothing;
             }
 
-            Log.d("asd", "[" + count + "]" + "[" + countMini + "]"  + profileDataFiles[count][countMini]);
+            Log.d("asd", "[" + count + "]" + "[" + countMini + "] = "  + list2d[count][countMini]);
 
             if(countMini > 10) {
                 count++;
@@ -268,7 +296,6 @@ public class MainActivity extends AppCompatActivity {
 
             countMini++;
         }
-
     }
 
     public void editBack(View v) {
