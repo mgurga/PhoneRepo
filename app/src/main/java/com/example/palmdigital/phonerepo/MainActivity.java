@@ -26,23 +26,19 @@ public class MainActivity extends AppCompatActivity {
     String representEndInData = "&#&";
     String representsStartInData = "%#%";
     String[] data;
-    String[][] profileDataFiles = new String[100][1000];
-
-    int numOfProfiles = 0;
+    String[][] profileDataFiles = new String[1000][100];
 
     File dataPath = new File(Environment.getExternalStorageDirectory() + "/phonerepo/");
     File dataFile = new File(dataPath, "data.txt");
-    File profilePath = new File(Environment.getExternalStorageDirectory() + "/phonerepo/profiledata");
 
     EditText[] inputFields = new EditText[5];
 
+    Button[] editButtons = new Button[3];
     Button saveProfile;
     Button createProfile;
     Button deleteProfile;
     Button settingsButton;
-    Button editButton1;
-    Button editButton2;
-    Button editButton3;
+    Button editBackButton;
 
     TextView[] editButton1tvs = new TextView[4];
     TextView[] editButton2tvs = new TextView[4];
@@ -61,9 +57,8 @@ public class MainActivity extends AppCompatActivity {
         String[] testArray = new String[2];
         testArray[0] = "hello";
         testArray[1] = "world";
-        writeToData(testArray);
-        data = loadTextFile(dataFile);
         setupComplete();
+        editBackButton.setVisibility(View.GONE);
 
     }
 
@@ -96,10 +91,6 @@ public class MainActivity extends AppCompatActivity {
             file.mkdirs();
         }
 
-        if(!profilePath.exists()) {
-            profilePath.mkdirs();
-        }
-
         File dataFile = new File(Environment.getExternalStorageDirectory() + "/phonerepo/",
                 dataFileName);
         if (!dataFile.exists()) {
@@ -110,13 +101,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if (!dataFile.exists()) {
-            try {
-                dataFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
         initializeVariables();
 
@@ -196,7 +180,17 @@ public class MainActivity extends AppCompatActivity {
         settingsButton.setVisibility(View.GONE);
         listtv.setVisibility(View.GONE);
         changeEditVisibility(true);
+        editBackButton.setVisibility(View.VISIBLE);
 
+        updateProfileList();
+
+        for(int i = 0; i < editButtons.length; i++) {
+            editButtons[i].setText(profileDataFiles[i][0]);
+            
+        }
+    }
+
+    public void updateProfileList() {
         String[] dataLoad = loadTextFile(dataFile);
         String[] blankList = new String[100];
         blankList = fixListNulls(blankList);
@@ -218,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
         dataLoad = moveDownBy(dataLoad, 1);
 
-        printList(dataLoad);
+        //print2DList(profileDataFiles);
 
         for(int i = 0; i < dataLoad.length; i++) {
             if(dataLoad[i].equals(representEndInData)) {
@@ -226,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
                 saves++;
                 Log.d("asd", "next save at " + saves);
                 //printList(tempDataLoad);
+                tempDataLoad = moveDownBy(tempDataLoad, 1);
                 saveListTo(tempDataLoad, profileDataFiles[saves]);
                 count = 0;
             }
@@ -244,15 +239,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-
-
-
-        for(int i = 0; i < profileDataFiles[0].length-1; i++) {
-            profileDataFiles[0][i] = profileDataFiles[0][i+1];
-        }
-
-        print2DList(profileDataFiles);
-
     }
 
     public void saveListTo(String[] from, String[] to) {
@@ -335,13 +321,6 @@ public class MainActivity extends AppCompatActivity {
         Button settings = findViewById(R.id.settingsButton);
         settings.setVisibility(View.VISIBLE);
 
-        int count = 0;
-        for(int i = 0; i < oldData.length; i++) {
-            if(oldData[i] == null) {} else {
-                count++;
-            }
-        }
-
         for(int i = 0; i < inputFields.length; i++) {
             newData[i] = inputFields[i].getText().toString();
             if (newData[i].matches("")) {
@@ -396,18 +375,18 @@ public class MainActivity extends AppCompatActivity {
                 editButton2tvs[i].setVisibility(View.VISIBLE);
                 editButton1tvs[i].setVisibility(View.VISIBLE);
             }
-            editButton3.setVisibility(View.VISIBLE);
-            editButton2.setVisibility(View.VISIBLE);
-            editButton1.setVisibility(View.VISIBLE);
+            for(int i = 0; i < editButtons.length; i++) {
+                editButtons[i].setVisibility(View.VISIBLE);
+            }
         } else {
             for (int i = 0; i < 4; i++) {
                 editButton3tvs[i].setVisibility(View.GONE);
                 editButton2tvs[i].setVisibility(View.GONE);
                 editButton1tvs[i].setVisibility(View.GONE);
             }
-            editButton3.setVisibility(View.GONE);
-            editButton2.setVisibility(View.GONE);
-            editButton1.setVisibility(View.GONE);
+            for(int i = 0; i < editButtons.length; i++) {
+                editButtons[i].setVisibility(View.GONE);
+            }
         }
     }
 
@@ -458,12 +437,13 @@ public class MainActivity extends AppCompatActivity {
         createProfile = (Button)findViewById(R.id.createProfile);
         deleteProfile = (Button)findViewById(R.id.deleteProfile);
         saveProfile = (Button)findViewById(R.id.saveProfile);
+        editBackButton = findViewById(R.id.editBackID);
 
         Button addButton = new Button(this);
         settingsButton =findViewById(R.id.settingsButton);
-        editButton1 = findViewById(R.id.editButton1);
-        editButton2 = findViewById(R.id.editButton2);
-        editButton3 = findViewById(R.id.editButton3);
+        editButtons[0] = findViewById(R.id.editButton1);
+        editButtons[1] = findViewById(R.id.editButton2);
+        editButtons[2] = findViewById(R.id.editButton3);
 
         editButton1tvs[0] = findViewById(R.id.button1tv1);
         editButton1tvs[1] = findViewById(R.id.button1tv2);
