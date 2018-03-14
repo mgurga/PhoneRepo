@@ -43,10 +43,13 @@ public class MainActivity extends AppCompatActivity {
     TextView[] editButton1tvs = new TextView[4];
     TextView[] editButton2tvs = new TextView[4];
     TextView[] editButton3tvs = new TextView[4];
-    TextView[] tvList = new TextView[100];
     TextView listtv;
+    TextView border1;
+    TextView border2;
 
     boolean settingsOpen = false;
+
+    int curEditPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +61,11 @@ public class MainActivity extends AppCompatActivity {
         testArray[0] = "hello";
         testArray[1] = "world";
         setupComplete();
+
+        border2.setVisibility(View.VISIBLE);
         editBackButton.setVisibility(View.GONE);
 
+        displayList(loadTextFile(dataFile));
     }
 
     public void writeToData(String[] toWriteData) {
@@ -181,13 +187,32 @@ public class MainActivity extends AppCompatActivity {
         listtv.setVisibility(View.GONE);
         changeEditVisibility(true);
         editBackButton.setVisibility(View.VISIBLE);
+        border2.setVisibility(View.VISIBLE);
 
         updateProfileList();
 
+        updateEditButtons();
+    }
+
+    public void updateEditButtons() {
         for(int i = 0; i < editButtons.length; i++) {
-            editButtons[i].setText(profileDataFiles[i][0]);
-            
+            editButtons[i].setText(profileDataFiles[i+curEditPage][0]);
         }
+        for(int i = 0; i < editButton1tvs.length; i++) {
+            editButton1tvs[i].setText(profileDataFiles[0+curEditPage][i+1]);
+            editButton2tvs[i].setText(profileDataFiles[1+curEditPage][i+1]);
+            editButton3tvs[i].setText(profileDataFiles[2+curEditPage][i+1]);
+        }
+    }
+
+    public void prevEdit(View view) {
+        curEditPage++;
+        updateEditButtons();
+    }
+
+    public void nextEdit(View view) {
+        curEditPage--;
+        updateEditButtons();
     }
 
     public void updateProfileList() {
@@ -303,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
     public void creProfile(View v) {
         hideEverything();
 
+        listtv.setVisibility(View.GONE);
         Button settings = findViewById(R.id.settingsButton);
         settings.setVisibility(View.GONE);
 
@@ -438,7 +464,8 @@ public class MainActivity extends AppCompatActivity {
         deleteProfile = (Button)findViewById(R.id.deleteProfile);
         saveProfile = (Button)findViewById(R.id.saveProfile);
         editBackButton = findViewById(R.id.editBackID);
-
+        border2 = findViewById(R.id.border2);
+        border1 = findViewById(R.id.border1);
         Button addButton = new Button(this);
         settingsButton =findViewById(R.id.settingsButton);
         editButtons[0] = findViewById(R.id.editButton1);
