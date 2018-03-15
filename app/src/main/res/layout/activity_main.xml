@@ -179,8 +179,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="prevEdit"
-                    android:text="<"
-                    android:textSize="24sp" />
+                    android:text="previous"
+                    android:textSize="24sp"
+                    tools:ignore="ButtonStyle,HardcodedText" />
 
                 <Button
                     android:id="@+id/nextEditPage"
@@ -188,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="nextEdit"
-                    android:text=">"
+                    android:text="next"
                     android:textSize="24sp" />
 
             </LinearLayout>
