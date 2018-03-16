@@ -202,6 +202,7 @@
                 android:id="@+id/editButton1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="editButton1Pressed"
                 android:text="Button"
                 android:textSize="24sp" />
 
@@ -237,6 +238,7 @@
                 android:id="@+id/editButton2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="editButton2Pressed"
                 android:text="Button"
                 android:textSize="24sp" />
 
@@ -272,6 +274,7 @@
                 android:id="@+id/editButton3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:onClick="editButton3Pressed"
                 android:text="Button"
                 android:textSize="24sp" />
 

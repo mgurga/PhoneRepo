@@ -201,15 +201,39 @@ public class MainActivity extends AppCompatActivity {
     public void updateEditButtons() {
         listtv.setVisibility(View.VISIBLE);
         int viewingPage = curEditPage+3;
-        listtv.setText("Viewing Page: " + viewingPage/3);
+        int spaces = 3;
+        String insSpace = "";
+
+        for(int i = 0; i < spaces; i++) {
+            insSpace=insSpace+" ";
+        }
+
+        profileDataFiles[0+curEditPage] = fixListNulls(profileDataFiles[0+curEditPage]);
+        profileDataFiles[1+curEditPage] = fixListNulls(profileDataFiles[1+curEditPage]);
+        profileDataFiles[2+curEditPage] = fixListNulls(profileDataFiles[2+curEditPage]);
+
+        listtv.setText(" Viewing Page: " + viewingPage/3);
         for(int i = 0; i < editButtons.length; i++) {
+            profileDataFiles[i+curEditPage] = fixListNulls(profileDataFiles[i+curEditPage]);
             editButtons[i].setText(profileDataFiles[i+curEditPage][0]);
         }
         for(int i = 0; i < editButton1tvs.length; i++) {
-            editButton1tvs[i].setText(profileDataFiles[0+curEditPage][i+1]);
-            editButton2tvs[i].setText(profileDataFiles[1+curEditPage][i+1]);
-            editButton3tvs[i].setText(profileDataFiles[2+curEditPage][i+1]);
+            editButton1tvs[i].setText(insSpace + profileDataFiles[0+curEditPage][i+1]);
+            editButton2tvs[i].setText(insSpace + profileDataFiles[1+curEditPage][i+1]);
+            editButton3tvs[i].setText(insSpace + profileDataFiles[2+curEditPage][i+1]);
         }
+    }
+
+    public void editButton1Pressed(View v) {
+        changeEditVisibility(false);
+    }
+
+    public void editButton2Pressed(View v) {
+        changeEditVisibility(false);
+    }
+
+    public void editButton3Pressed(View v) {
+        changeEditVisibility(false);
     }
 
     public void prevEdit(View view) {
@@ -323,6 +347,7 @@ public class MainActivity extends AppCompatActivity {
         createProfile.setVisibility(View.VISIBLE);
         deleteProfile.setVisibility(View.VISIBLE);
         listtv.setVisibility(View.VISIBLE);
+        settingsButton.setVisibility(View.VISIBLE);
 
         changeEditVisibility(false);
 
@@ -404,15 +429,9 @@ public class MainActivity extends AppCompatActivity {
         displayList(dataLoad);
     }
 
-    public void hidetvFileManager() {
-
-    }
-
-    public void delProfile(View v) {
-
-    }
     public void changeEditVisibility(boolean showorhide) {
         if(showorhide == true) {
+            editBackButton.setVisibility(View.VISIBLE);
             for (int i = 0; i < 4; i++) {
                 editButton3tvs[i].setVisibility(View.VISIBLE);
                 editButton2tvs[i].setVisibility(View.VISIBLE);
@@ -422,6 +441,16 @@ public class MainActivity extends AppCompatActivity {
                 editButtons[i].setVisibility(View.VISIBLE);
             }
         } else {
+            settingsButton.setVisibility(View.VISIBLE);
+            createProfile.setVisibility(View.VISIBLE);
+            deleteProfile.setVisibility(View.VISIBLE);
+
+            editPrevButton.setVisibility(View.GONE);
+            editNextButton.setVisibility(View.GONE);
+
+            editBackButton.setVisibility(View.GONE);
+            displayList(loadTextFile(dataFile));
+
             for (int i = 0; i < 4; i++) {
                 editButton3tvs[i].setVisibility(View.GONE);
                 editButton2tvs[i].setVisibility(View.GONE);
@@ -447,7 +476,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Button clearSettings = findViewById(R.id.clearDataButton);
             clearSettings.setVisibility(View.GONE);
-            setupComplete();
+            editBack(new View(this));
         }
 
     }
@@ -466,7 +495,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void hideEverything() {
-        hidetvFileManager();
         createProfile.setVisibility(View.GONE);
         deleteProfile.setVisibility(View.GONE);
         for(int i = 0 ; i < inputFields.length; i++) {
