@@ -175,12 +175,12 @@
 
                 <Button
                     android:id="@+id/prevEditPage"
-                    android:layout_width="wrap_content"
+                    android:layout_width="91dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:onClick="prevEdit"
                     android:text="previous"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     tools:ignore="ButtonStyle,HardcodedText" />
 
                 <Button
@@ -190,7 +190,7 @@
                     android:layout_weight="1"
                     android:onClick="nextEdit"
                     android:text="next"
-                    android:textSize="24sp" />
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -202,91 +202,106 @@
                 android:id="@+id/editButton1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:text="Button"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/button1tv1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/button1tv2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/button1tv3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/button1tv4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/editButton2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:text="Button"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/button2tv1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/button2tv2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/button2tv3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/button2tv4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/editButton3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:text="Button"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/button3tv1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/button3tv2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/button3tv3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/button3tv4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textSize="20sp" />
 
         </LinearLayout>
 

@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     Button deleteProfile;
     Button settingsButton;
     Button editBackButton;
+    Button editNextButton;
+    Button editPrevButton;
 
     TextView[] editButton1tvs = new TextView[4];
     TextView[] editButton2tvs = new TextView[4];
@@ -188,6 +190,8 @@ public class MainActivity extends AppCompatActivity {
         changeEditVisibility(true);
         editBackButton.setVisibility(View.VISIBLE);
         border2.setVisibility(View.VISIBLE);
+        editPrevButton.setVisibility(View.VISIBLE);
+        editNextButton.setVisibility(View.VISIBLE);
 
         updateProfileList();
 
@@ -195,6 +199,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateEditButtons() {
+        listtv.setVisibility(View.VISIBLE);
+        int viewingPage = curEditPage+3;
+        listtv.setText("Viewing Page: " + viewingPage/3);
         for(int i = 0; i < editButtons.length; i++) {
             editButtons[i].setText(profileDataFiles[i+curEditPage][0]);
         }
@@ -206,12 +213,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void prevEdit(View view) {
-        curEditPage++;
+        if(curEditPage == 0) {} else {
+            curEditPage -= 3;
+        }
         updateEditButtons();
     }
 
     public void nextEdit(View view) {
-        curEditPage--;
+        curEditPage+=3;
         updateEditButtons();
     }
 
@@ -314,6 +323,14 @@ public class MainActivity extends AppCompatActivity {
         createProfile.setVisibility(View.VISIBLE);
         deleteProfile.setVisibility(View.VISIBLE);
         listtv.setVisibility(View.VISIBLE);
+
+        changeEditVisibility(false);
+
+        editPrevButton.setVisibility(View.GONE);
+        editNextButton.setVisibility(View.GONE);
+
+        displayList(loadTextFile(dataFile));
+        editBackButton.setVisibility(View.GONE);
     }
 
     public void printList(String[] list) {
@@ -467,6 +484,12 @@ public class MainActivity extends AppCompatActivity {
         border2 = findViewById(R.id.border2);
         border1 = findViewById(R.id.border1);
         Button addButton = new Button(this);
+        editPrevButton = findViewById(R.id.prevEditPage);
+        editNextButton = findViewById(R.id.nextEditPage);
+
+        editNextButton.setVisibility(View.GONE);
+        editPrevButton.setVisibility(View.GONE);
+
         settingsButton =findViewById(R.id.settingsButton);
         editButtons[0] = findViewById(R.id.editButton1);
         editButtons[1] = findViewById(R.id.editButton2);
