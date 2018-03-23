@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     boolean settingsOpen = false;
     boolean deleteConformation = false;
+    boolean bowTied = false;
 
     int curEditPage = 0;
     int editingProfile = 0;
@@ -129,6 +130,8 @@ public class MainActivity extends AppCompatActivity {
         changeEditVisibility(false);
         hideViewsInLayout(R.id.attribute_editor);
         //Log.d("asd", profileData.length + "");
+        updateProfileListWData();
+        displayList(loadTextFile(dataFile));
     }
 
     public String[] loadTextFile(File inFile) {
@@ -316,26 +319,90 @@ public class MainActivity extends AppCompatActivity {
 
     public void removeAttribute(int profileNum) {
         profileData[profileNum][0]=".";
+        Log.d("asd", profileNum+"");
         updateDataListWProfile();
     }
 
     public void updateDataListWProfile() {
         String[] updateData = new String[loadTextFile(dataFile).length];
+        String[] emptyList = new String[profileData.length];
 
-        for(int j = 0; j < profileData.length; j++) {
-            for (int i = 1; i < profileData.length; i++) {
-                profileData[i] = fixListNulls(profileData[i]);
-                if (!profileData[i][0].equals(".")) {
-                    if (profileData[i - 1][0].equals(".")) {
+        updateData[0] = "hello";
+        updateData[1] = "world";
+
+        bowTied = false;
+
+        profileData[0] = fixListNulls(profileData[0]);
+        if(profileData[0][0].equals(representsNothing)) {
+            profileData[0] = emptyList;
+            profileData[0] = fixListNulls(profileData[0]);
+        }
+
+        for (int i = 1; i < profileData[0].length; i++) {
+            profileData[i] = fixListNulls(profileData[i]);
+            if (!profileData[i][0].equals(representsNothing)) {
+                if (profileData[i - 1][0].equals(representsNothing)) {
                         profileData[i - 1] = profileData[i];
-                    }
+                        profileData[i] = emptyList;
                 }
             }
         }
 
-        for(int i = 0; i < 10; i++) {
-            Log.d("asd", profileData[i][0]);
+
+        for(int i = 0; i < profileData.length; i++) {
+            String[] parsedProfile = new String[profileData.length];
+            int count = 0;
+
+            for(int j = 0; j < profileData[i].length; j++) {
+                profileData[i] = fixListNulls(profileData[i]);
+                if(!profileData[i][j].equals(representsNothing)) {
+                    count++;
+                }
+            }
+
+            if(count > 0) {
+                count += 2;
+                String[] profileParsed = new String[count];
+                //Log.d("asd", count+"");
+
+                for (int j = 0; j < count - 1; j++) {
+                    profileParsed[j + 1] = profileData[i][j];
+                }
+
+                profileParsed[0] = representsStartInData;
+                profileParsed[count - 1] = representEndInData;
+
+                writeToData(profileParsed);
+
+                String[] profileWHello = new String[count+2];
+                for(int a = 0; a < count; a++) {
+                    profileWHello[a+2] = profileParsed[a];
+                }
+
+                profileWHello[0] = "hello";
+                profileWHello[1] = "world";
+
+                updateProfileListWData();
+                writeToData(profileWHello);
+
+                displayList(loadTextFile(dataFile));
+            } else {
+                if(bowTied == false) {
+                    Log.d("asd", "tying a nice bow");
+                    String[] emptyemptyList = new String[2];
+                    emptyemptyList[0] = "hello";
+                    emptyemptyList[1] = "world";
+
+                    writeToData(emptyemptyList);
+                    updateProfileListWData();
+                    displayList(loadTextFile(dataFile));
+                    bowTied = true;
+                }
+            }
+
+
         }
+
     }
 
     public void hideViewsInLayout(int intid) {
@@ -429,6 +496,21 @@ public class MainActivity extends AppCompatActivity {
         }
         list = fixListNulls(list);
         return list;
+    }
+
+    public String[] moveUpBy(String[] list, int upBy) {
+        String[] newList = new String[list.length+upBy];
+        for(int i = 0; i < list.length; i++) {
+            newList[i] = list[i];
+        }
+        for(int i = 1; i < newList.length; i++) {
+            newList[i] = newList[i-1];
+        }
+        for(int i = 0; i < upBy; i++) {
+            newList[i] = representsNothing;
+        }
+        newList = fixListNulls(newList);
+        return newList;
     }
 
     public String[] fixListNulls(String[] list) {
