@@ -166,7 +166,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -308,9 +309,44 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/attribute_editor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/newAtt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="newAttribute"
+                android:text="new attribute"
+                android:textSize="18sp"
+                android:typeface="monospace" />
+
+            <Button
+                android:id="@+id/editAtt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="editAttribute"
+                android:text="edit attribute"
+                android:textSize="18sp"
+                android:typeface="monospace" />
+
+            <Button
+                android:id="@+id/delAtt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="deleteAttribute"
+                android:text="delete attribute"
+                android:textSize="18sp"
+                android:typeface="monospace" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/border2"
-            android:layout_width="1204dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="-------------------------------------------------------------------------------------" />
