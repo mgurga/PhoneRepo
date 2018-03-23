@@ -319,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void removeAttribute(int profileNum) {
         profileData[profileNum][0]=".";
-        Log.d("asd", profileNum+"");
+        //Log.d("asd", profileNum+"");
         updateDataListWProfile();
     }
 
@@ -338,16 +338,16 @@ public class MainActivity extends AppCompatActivity {
             profileData[0] = fixListNulls(profileData[0]);
         }
 
-        for (int i = 1; i < profileData[0].length; i++) {
+        for (int i = 1; i < profileData.length; i++) {
             profileData[i] = fixListNulls(profileData[i]);
-            if (!profileData[i][0].equals(representsNothing)) {
-                if (profileData[i - 1][0].equals(representsNothing)) {
-                        profileData[i - 1] = profileData[i];
-                        profileData[i] = emptyList;
-                }
+            if(profileData[i][0].equals(representsNothing)) {
+                profileData[i-1] = profileData[i];
             }
         }
 
+        for(int w = 0; w < 10; w++) {
+            Log.d("asd", profileData[w][0]);
+        }
 
         for(int i = 0; i < profileData.length; i++) {
             String[] parsedProfile = new String[profileData.length];
@@ -355,15 +355,17 @@ public class MainActivity extends AppCompatActivity {
 
             for(int j = 0; j < profileData[i].length; j++) {
                 profileData[i] = fixListNulls(profileData[i]);
-                if(!profileData[i][j].equals(representsNothing)) {
+                if(!profileData[i][0].equals(representsNothing)) {
                     count++;
                 }
             }
 
+            Log.d("asd", count+"");
+
+
             if(count > 0) {
                 count += 2;
                 String[] profileParsed = new String[count];
-                //Log.d("asd", count+"");
 
                 for (int j = 0; j < count - 1; j++) {
                     profileParsed[j + 1] = profileData[i][j];
