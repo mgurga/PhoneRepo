@@ -214,6 +214,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateEditButtons() {
+
+        //This sets the 3 buttons and 15 TextViews to profiles in profileData[][]
+
         listtv.setVisibility(View.VISIBLE);
         int viewingPage = curEditPage+3;
         viewingPage = viewingPage/3;
@@ -324,87 +327,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateDataListWProfile() {
-        String[] updateData = new String[loadTextFile(dataFile).length];
-        String[] emptyList = new String[profileData.length];
+        updateProfileListWData();
 
-        updateData[0] = "hello";
-        updateData[1] = "world";
-
-        bowTied = false;
-
-        profileData[0] = fixListNulls(profileData[0]);
-        if(profileData[0][0].equals(representsNothing)) {
-            profileData[0] = emptyList;
-            profileData[0] = fixListNulls(profileData[0]);
-        }
-
-        for (int i = 1; i < profileData.length; i++) {
+        for(int i = 1; i < profileData.length; i++) {
+            profileData[i-1] = fixListNulls(profileData[i-1]);
             profileData[i] = fixListNulls(profileData[i]);
-            if(profileData[i][0].equals(representsNothing)) {
+            if(!profileData[i][0].equals(representsNothing) && profileData[i - 1][0].equals(representsNothing)) {
                 profileData[i-1] = profileData[i];
+                profileData[i] = new String[profileData[0].length];
             }
         }
 
-        for(int w = 0; w < 10; w++) {
-            Log.d("asd", profileData[w][0]);
+        for(int i = 0; i < profileData[0].length; i++) {
+            
         }
-
-        for(int i = 0; i < profileData.length; i++) {
-            String[] parsedProfile = new String[profileData.length];
-            int count = 0;
-
-            for(int j = 0; j < profileData[i].length; j++) {
-                profileData[i] = fixListNulls(profileData[i]);
-                if(!profileData[i][0].equals(representsNothing)) {
-                    count++;
-                }
-            }
-
-            Log.d("asd", count+"");
-
-
-            if(count > 0) {
-                count += 2;
-                String[] profileParsed = new String[count];
-
-                for (int j = 0; j < count - 1; j++) {
-                    profileParsed[j + 1] = profileData[i][j];
-                }
-
-                profileParsed[0] = representsStartInData;
-                profileParsed[count - 1] = representEndInData;
-
-                writeToData(profileParsed);
-
-                String[] profileWHello = new String[count+2];
-                for(int a = 0; a < count; a++) {
-                    profileWHello[a+2] = profileParsed[a];
-                }
-
-                profileWHello[0] = "hello";
-                profileWHello[1] = "world";
-
-                updateProfileListWData();
-                writeToData(profileWHello);
-
-                displayList(loadTextFile(dataFile));
-            } else {
-                if(bowTied == false) {
-                    Log.d("asd", "tying a nice bow");
-                    String[] emptyemptyList = new String[2];
-                    emptyemptyList[0] = "hello";
-                    emptyemptyList[1] = "world";
-
-                    writeToData(emptyemptyList);
-                    updateProfileListWData();
-                    displayList(loadTextFile(dataFile));
-                    bowTied = true;
-                }
-            }
-
-
-        }
-
     }
 
     public void hideViewsInLayout(int intid) {
