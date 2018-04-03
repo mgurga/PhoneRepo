@@ -95,6 +95,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void writeToDataSingleString(String toWriteData) {
+        try {
+            FileWriter writer = new FileWriter(dataFile);
+            writer.append(toWriteData);
+
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setup() {
 
         String folderName = "phonerepo";
@@ -299,7 +311,12 @@ public class MainActivity extends AppCompatActivity {
         editAttribute.setVisibility(View.GONE);
         delAttribute.setVisibility(View.GONE);
         newAttribute.setVisibility(View.GONE);
+
+        /////////////
+        newAttribute.setText("Add Attribute");
     }
+
+
 
     public void editAttribute(View view) {
         delAttribute.setVisibility(View.GONE);
@@ -321,26 +338,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void removeAttribute(int profileNum) {
-        profileData[profileNum][0]=".";
+        profileData[profileNum][0]=representsNothing;
         //Log.d("asd", profileNum+"");
         updateDataListWProfile();
     }
 
     public void updateDataListWProfile() {
-        updateProfileListWData();
 
-        for(int i = 1; i < profileData.length; i++) {
-            profileData[i-1] = fixListNulls(profileData[i-1]);
+        String output = "hello\nworld\n";
+
+        for(int i = 0; i < profileData.length; i++) {
+            String[] blankList = new String[profileData[i].length];
+            blankList = fixListNulls(blankList);
+
             profileData[i] = fixListNulls(profileData[i]);
-            if(!profileData[i][0].equals(representsNothing) && profileData[i - 1][0].equals(representsNothing)) {
-                profileData[i-1] = profileData[i];
-                profileData[i] = new String[profileData[0].length];
+
+            if(!profileData[i][0].equals(representsNothing)) {
+                String[] savePart = new String[profileData[i].length];
+                String saveString = "";
+
+                for(int j = 0; j < savePart.length; j++) {
+                    if(!profileData[i][j].equals(representsNothing)) {
+                        saveString+=profileData[i][j] + '\n';
+
+                    }
+                }
+
+                saveString = representsStartInData + '\n' + saveString+ representEndInData;
+
+                output += saveString;
             }
         }
 
-        for(int i = 0; i < profileData[0].length; i++) {
-            
-        }
+        writeToDataSingleString(output);
+        displayList(loadTextFile(dataFile));
     }
 
     public void hideViewsInLayout(int intid) {

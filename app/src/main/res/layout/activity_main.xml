@@ -316,12 +316,23 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <EditText
+                android:id="@+id/addAttInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:fontFamily="monospace"
+                android:hint="newAttribute"
+                android:inputType="text"
+                android:visibility="gone" />
+
             <Button
                 android:id="@+id/newAtt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="newAttribute"
-                android:text="new attribute"
+                android:text="add attribute"
                 android:textSize="18sp"
                 android:typeface="monospace" />
 
