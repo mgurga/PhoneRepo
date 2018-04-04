@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     boolean settingsOpen = false;
     boolean deleteConformation = false;
     boolean bowTied = false;
+    boolean addConformation = false;
 
     int curEditPage = 0;
     int editingProfile = 0;
@@ -75,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
         editBackButton.setVisibility(View.GONE);
 
         displayList(loadTextFile(dataFile));
+
+
     }
 
     public void writeToData(String[] toWriteData) {
@@ -310,13 +313,33 @@ public class MainActivity extends AppCompatActivity {
     public void newAttribute(View view) {
         editAttribute.setVisibility(View.GONE);
         delAttribute.setVisibility(View.GONE);
-        newAttribute.setVisibility(View.GONE);
 
         /////////////
-        newAttribute.setText("Add Attribute");
+
+        if(!addConformation) {
+
+            newAttribute.setText("Add Attribute");
+            addConformation = true;
+        } else {
+            EditText input = findViewById(R.id.addAttInput);
+
+            Log.d("asd", editingProfile +"");
+            addAttribute(editingProfile, input.getText().toString());
+            addConformation = false;
+        }
     }
 
+    public void addAttribute(int profileNum, String toAdd) {
+        int count = 0;
+        for(int i = 0; i < profileData[profileNum].length; i++) {
+            if(!profileData[profileNum][i].equals(representsNothing)) {
+                count++;
+            }
+        }
 
+        profileData[profileNum][count+1] = toAdd;
+        updateDataListWProfile();
+    }
 
     public void editAttribute(View view) {
         delAttribute.setVisibility(View.GONE);
@@ -341,6 +364,7 @@ public class MainActivity extends AppCompatActivity {
         profileData[profileNum][0]=representsNothing;
         //Log.d("asd", profileNum+"");
         updateDataListWProfile();
+        displayList(loadTextFile(dataFile));
     }
 
     public void updateDataListWProfile() {
@@ -718,6 +742,6 @@ public class MainActivity extends AppCompatActivity {
         inputFields[3].setVisibility(View.GONE);
         inputFields[4].setVisibility(View.GONE);
 
-
+        findViewById(R.id.addAttInput).setVisibility(View.GONE);
     }
 }
