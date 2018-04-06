@@ -325,7 +325,19 @@
                 android:fontFamily="monospace"
                 android:hint="newAttribute"
                 android:inputType="text"
-                android:visibility="gone" />
+                android:visibility="visible" />
+
+            <EditText
+                android:id="@+id/editAttNum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:fontFamily="monospace"
+                android:hint="newAttribute"
+                android:inputType="number"
+                android:textAlignment="textEnd"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/newAtt"

@@ -33,9 +33,11 @@ public class MainActivity extends AppCompatActivity {
     File dataFile = new File(dataPath, "data.txt");
 
     EditText[] inputFields = new EditText[5];
+    EditText addAttInputButton;
+    EditText editAttInput;
 
-    Button[] editButtons = new Button[3];
     Button saveProfile;
+    Button[] editButtons = new Button[3];
     Button createProfile;
     Button deleteProfile;
     Button settingsButton;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     int curEditPage = 0;
     int editingProfile = 0;
+    int editPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -285,9 +288,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void attributeEditor(int button) {
         int buttonDataNum = button - 1;
+
         int pageToEdit = curEditPage*3;
         deleteConformation=false;
         editingProfile = pageToEdit+buttonDataNum;
+
+        addAttInputButton.setVisibility(View.GONE);
+        editAttInput.setVisibility(View.GONE);
 
         Log.d("asd", profileData[pageToEdit+buttonDataNum][0]);
         hideViewsInLayout(R.id.edit_menu);
@@ -313,19 +320,18 @@ public class MainActivity extends AppCompatActivity {
     public void newAttribute(View view) {
         editAttribute.setVisibility(View.GONE);
         delAttribute.setVisibility(View.GONE);
-
-        /////////////
+        addAttInputButton.setVisibility(View.VISIBLE);
 
         if(!addConformation) {
-
             newAttribute.setText("Add Attribute");
             addConformation = true;
+            border2.setVisibility(View.INVISIBLE);
         } else {
-            EditText input = findViewById(R.id.addAttInput);
-
             Log.d("asd", editingProfile +"");
-            addAttribute(editingProfile, input.getText().toString());
+            addAttribute(editingProfile, addAttInputButton.getText().toString());
             addConformation = false;
+            editBack(editBackButton);
+            border2.setVisibility(View.VISIBLE);
         }
     }
 
@@ -344,7 +350,22 @@ public class MainActivity extends AppCompatActivity {
     public void editAttribute(View view) {
         delAttribute.setVisibility(View.GONE);
         newAttribute.setVisibility(View.GONE);
-        editAttribute.setVisibility(View.GONE);
+        int selectedValue = 0;
+
+        if(editPage == 0) {
+            editAttInput.setVisibility(View.VISIBLE);
+            editAttribute.setText("Next");
+            editPage++;
+        } else
+        if(editPage == 1) {
+            if(editAttInput.getText().toString() == null) {
+                selectedValue = -1;
+            } else {
+                selectedValue = Integer.parseInt(editAttInput.getText().toString());
+            }
+            editPage++;
+            editAttInput.setVisibility(View.GONE);
+        }
     }
 
     public void deleteAttribute(View view) {
@@ -537,6 +558,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void editBack(View v) {
         hideEverything();
+        findViewById(R.id.scroll).setScrollY(0);
         hideViewsInLayout(R.id.attribute_editor);
         createProfile.setVisibility(View.VISIBLE);
         deleteProfile.setVisibility(View.VISIBLE);
@@ -706,6 +728,10 @@ public class MainActivity extends AppCompatActivity {
         newAttribute = findViewById(R.id.newAtt);
         editAttribute = findViewById(R.id.editAtt);
         delAttribute = findViewById(R.id.delAtt);
+        addAttInputButton = findViewById(R.id.addAttInput);
+        addAttInputButton.setVisibility(View.GONE);
+        editAttInput = findViewById(R.id.editAttNum);
+        editAttInput.setVisibility(View.GONE);
 
         settingsButton =findViewById(R.id.settingsButton);
         editButtons[0] = findViewById(R.id.editButton1);
