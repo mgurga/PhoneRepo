@@ -323,7 +323,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:fontFamily="monospace"
-                android:hint="newAttribute"
+                android:hint="name of new attribute"
                 android:inputType="text"
                 android:visibility="visible" />
 
@@ -334,7 +334,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:fontFamily="monospace"
-                android:hint="newAttribute"
+                android:hint="enter edit num"
                 android:inputType="number"
                 android:textAlignment="textEnd"
                 android:visibility="visible" />

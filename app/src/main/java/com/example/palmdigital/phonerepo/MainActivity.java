@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     boolean deleteConformation = false;
     boolean bowTied = false;
     boolean addConformation = false;
+    boolean editConformation = false;
 
     int curEditPage = 0;
     int editingProfile = 0;
@@ -321,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
         editAttribute.setVisibility(View.GONE);
         delAttribute.setVisibility(View.GONE);
         addAttInputButton.setVisibility(View.VISIBLE);
-
+        addAttInputButton.setText("name of new attribute");
         if(!addConformation) {
             newAttribute.setText("Add Attribute");
             addConformation = true;
@@ -352,20 +353,24 @@ public class MainActivity extends AppCompatActivity {
         newAttribute.setVisibility(View.GONE);
         int selectedValue = 0;
 
-        if(editPage == 0) {
-            editAttInput.setVisibility(View.VISIBLE);
-            editAttribute.setText("Next");
-            editPage++;
-        } else
-        if(editPage == 1) {
-            if(editAttInput.getText().toString() == null) {
-                selectedValue = -1;
-            } else {
-                selectedValue = Integer.parseInt(editAttInput.getText().toString());
-            }
-            editPage++;
-            editAttInput.setVisibility(View.GONE);
+        editAttInput.setVisibility(View.VISIBLE);
+        addAttInputButton.setHint("replace value to");
+        addAttInputButton.setVisibility(View.VISIBLE);
+
+        if(!editConformation) {
+            editConformation = true;
+
+            
         }
+
+    }
+
+    public void delSingleAtt(int profileTo, int selected) {
+
+        for(int i = selected; i < profileData[0].length - selected; i++) {
+            profileData[profileTo][i] = profileData[profileTo][i+1];
+        }
+
     }
 
     public void deleteAttribute(View view) {
@@ -572,6 +577,11 @@ public class MainActivity extends AppCompatActivity {
 
         displayList(loadTextFile(dataFile));
         editBackButton.setVisibility(View.GONE);
+
+        editPage=0;
+        if(!editAttribute.getText().toString().equals("edit attribute")) {
+            editAttribute.setText("edit attribute");
+        }
     }
 
     public void printList(String[] list) {
