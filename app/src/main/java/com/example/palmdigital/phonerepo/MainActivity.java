@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     TextView listtv;
     TextView border1;
     TextView border2;
+    TextView editInfo;
 
     boolean settingsOpen = false;
     boolean deleteConformation = false;
@@ -286,11 +287,12 @@ public class MainActivity extends AppCompatActivity {
             attributeEditor(3);
         }
     }
-
+    //////////////////////////// ATTRIBUTE EDITOR /////////////////////////
     public void attributeEditor(int button) {
         int buttonDataNum = button - 1;
-
         int pageToEdit = curEditPage*3;
+
+        editInfo.setVisibility(View.GONE);
         deleteConformation=false;
         editingProfile = pageToEdit+buttonDataNum;
 
@@ -322,10 +324,12 @@ public class MainActivity extends AppCompatActivity {
         editAttribute.setVisibility(View.GONE);
         delAttribute.setVisibility(View.GONE);
         addAttInputButton.setVisibility(View.VISIBLE);
-        addAttInputButton.setText("name of new attribute");
+        addAttInputButton.setHint("name of new attribute");
+
         if(!addConformation) {
             newAttribute.setText("Add Attribute");
             addConformation = true;
+            addAttInputButton.setText("");
             border2.setVisibility(View.INVISIBLE);
         } else {
             Log.d("asd", editingProfile +"");
@@ -357,12 +361,44 @@ public class MainActivity extends AppCompatActivity {
         addAttInputButton.setHint("replace value to");
         addAttInputButton.setVisibility(View.VISIBLE);
 
-        if(!editConformation) {
-            editConformation = true;
+        if(editConformation) {
 
-            
+           String userInput = addAttInputButton.getText().toString();
+           int userProfileIn = -1;
+
+           if(!editAttInput.getText().toString().equals("")) {
+               userProfileIn = Integer.parseInt(editAttInput.getText().toString());
+           }
+
+           if(userProfileIn == -1) {
+               editBack(editBackButton);
+               editConformation = false;
+           }
+
+           if(userInput.equals(representsNothing)) {
+               delSingleAtt(editingProfile, userProfileIn);
+                updateDataListWProfile();
+           } else {
+               profileData[editingProfile][userProfileIn] = userInput;
+               updateDataListWProfile();
+           }
+
+           editInfo.setVisibility(View.GONE);
+
+           editConformation = false;
+
+           Log.d("asd", "userInput: " + userInput + "  userProfileInput: " + userProfileIn);
+           editInfo.setVisibility(View.VISIBLE);
+           editBack(editBackButton);
+
+        } else {
+
+            if (!editConformation) {
+                editConformation=true;
+                addAttInputButton.setText("");
+                editAttInput.setText("");
+            }
         }
-
     }
 
     public void delSingleAtt(int profileTo, int selected) {
@@ -742,6 +778,9 @@ public class MainActivity extends AppCompatActivity {
         addAttInputButton.setVisibility(View.GONE);
         editAttInput = findViewById(R.id.editAttNum);
         editAttInput.setVisibility(View.GONE);
+        editInfo = findViewById(R.id.editInfoViewer);
+        editInfo.setText("Set the replace value to \".\" to delete the single line");
+        editInfo.setVisibility(View.GONE);
 
         settingsButton =findViewById(R.id.settingsButton);
         editButtons[0] = findViewById(R.id.editButton1);
