@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
+
+    //////////// DECLARE VARIABLES /////////////////////
     String phoneFilename = "phonerepo";
     String representsNothing = ".";
     String representEndInData = "&#&";
@@ -66,10 +68,14 @@ public class MainActivity extends AppCompatActivity {
     int editingProfile = 0;
     int editPage = 0;
 
+    //////////////// SETS UP SOME FILE STUFF ////////////////////
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // getting stuff ready
 
         setup();
         String[] testArray = new String[2];
@@ -83,36 +89,6 @@ public class MainActivity extends AppCompatActivity {
         displayList(loadTextFile(dataFile));
 
 
-    }
-
-    public void writeToData(String[] toWriteData) {
-        try {
-            FileWriter writer = new FileWriter(dataFile);
-
-            for (int i = 0; i < toWriteData.length; i++) {
-                if (toWriteData[i] == null) {
-                } else {
-                    writer.append(toWriteData[i] + "\n");
-                }
-            }
-
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void writeToDataSingleString(String toWriteData) {
-        try {
-            FileWriter writer = new FileWriter(dataFile);
-            writer.append(toWriteData);
-
-            writer.flush();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void setup() {
@@ -152,70 +128,6 @@ public class MainActivity extends AppCompatActivity {
         //Log.d("asd", profileData.length + "");
         updateProfileListWData();
         displayList(loadTextFile(dataFile));
-    }
-
-    public String[] loadTextFile(File inFile) {
-        FileInputStream fis;
-        String[] output = new String[1000000];
-
-        FileInputStream is;
-        BufferedReader reader;
-        final File textFile = new File(String.valueOf(inFile));
-        String[] textFileStr = new String[1000];
-
-
-        if (textFile.exists()) {
-            try {
-                is = new FileInputStream(textFile);
-                reader = new BufferedReader(new InputStreamReader(is));
-                String line = "";
-                int count = 0;
-
-                while ((line = reader.readLine()) != null) {
-                    textFileStr[count] = line;
-                    count++;
-                }
-
-                return textFileStr;
-
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-        return null;
-    }
-
-    public void hideKeyboard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
-    public void displayList(String[] list) {
-        hideKeyboard();
-        String toTV = "";
-        for(int i = 0; i < list.length; i++) {
-
-            if(list[i] == null) {list[i] = representsNothing;}
-
-            if(list[i] == representsNothing) {} else {
-
-                toTV = toTV + list[i] + "\n";
-
-            }
-
-        }
-
-        listtv.setVisibility(View.VISIBLE);
-        listtv.setText(toTV);
-
     }
 
     public void editProfile(View v) {
@@ -401,14 +313,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void delSingleAtt(int profileTo, int selected) {
-
-        for(int i = selected; i < profileData[0].length - selected; i++) {
-            profileData[profileTo][i] = profileData[profileTo][i+1];
-        }
-
-    }
-
     public void deleteAttribute(View view) {
         if(deleteConformation == false) {
             editAttribute.setVisibility(View.GONE);
@@ -429,53 +333,6 @@ public class MainActivity extends AppCompatActivity {
         displayList(loadTextFile(dataFile));
     }
 
-    public void updateDataListWProfile() {
-
-        String output = "hello\nworld\n";
-
-        for(int i = 0; i < profileData.length; i++) {
-            String[] blankList = new String[profileData[i].length];
-            blankList = fixListNulls(blankList);
-
-            profileData[i] = fixListNulls(profileData[i]);
-
-            if(!profileData[i][0].equals(representsNothing)) {
-                String[] savePart = new String[profileData[i].length];
-                String saveString = "";
-
-                for(int j = 0; j < savePart.length; j++) {
-                    if(!profileData[i][j].equals(representsNothing)) {
-                        saveString+=profileData[i][j] + '\n';
-
-                    }
-                }
-
-                saveString = representsStartInData + '\n' + saveString+ representEndInData;
-
-                output += saveString;
-            }
-        }
-
-        writeToDataSingleString(output);
-        displayList(loadTextFile(dataFile));
-    }
-
-    public void hideViewsInLayout(int intid) {
-        LinearLayout view = findViewById(intid);
-        for (int i = 0; i < view.getChildCount(); i++) {
-            View child = view.getChildAt(i);
-            child.setVisibility(View.GONE);
-        }
-    }
-
-    public void showViewsInLayout(int intid) {
-        LinearLayout view = findViewById(intid);
-        for (int i = 0; i < view.getChildCount(); i++) {
-            View child = view.getChildAt(i);
-            child.setVisibility(View.VISIBLE);
-        }
-    }
-
     public void prevEdit(View view) {
         if(curEditPage == 0) {} else {
             curEditPage -= 3;
@@ -489,113 +346,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void updateProfileListWData() {
-        String[] dataLoad = loadTextFile(dataFile);
-        String[] blankList = new String[100];
-        blankList = fixListNulls(blankList);
-
-        for(int i = 0; i < dataLoad.length-2; i++) {
-            dataLoad[i+1] = dataLoad[i+2];
-            if(dataLoad[i] == null || dataLoad[i] == "" || dataLoad[i] == " ") {
-                dataLoad[i] = representsNothing;
-            }
-        }
-        dataLoad[0] = representEndInData;
-        dataLoad[dataLoad.length-1] = representsNothing;
-        dataLoad[dataLoad.length-2] = representsNothing;
-
-        int count = 0;
-        int saves = -1;
-        String[] tempDataLoad = new String[dataLoad.length];
-        boolean reading = false;
-
-        dataLoad = moveDownBy(dataLoad, 1);
-
-        //print2DList(profileDataFiles);
-
-        for(int i = 0; i < dataLoad.length; i++) {
-            if(dataLoad[i].equals(representEndInData)) {
-                reading = false;
-                saves++;
-                //Log.d("asd", "next save at " + saves);
-                //printList(tempDataLoad);
-                tempDataLoad = moveDownBy(tempDataLoad, 1);
-                saveListTo(tempDataLoad, profileData[saves]);
-                count = 0;
-            }
-
-            if(dataLoad[i].equals(representsStartInData)) {
-                reading = true;
-                //Log.d("asd", "new start");
-                for(int c = 0; c < tempDataLoad.length; c++) {
-                    tempDataLoad[c] = representsNothing;
-                }
-            }
-
-            if(reading == true) {
-                tempDataLoad[count] = dataLoad[i];
-                count++;
-            }
-        }
-    }
-
-    public void saveListTo(String[] from, String[] to) {
-        for(int i = 0; i < to.length; i++) {
-            to[i] = from[i];
-        }
-    }
-
-    public String[] moveDownBy(String[] list, int downBy) {
-        for(int i = 0; i < list.length - downBy; i++) {
-            list[i] = list[i+1];
-        }
-        list = fixListNulls(list);
-        return list;
-    }
-
-    public String[] moveUpBy(String[] list, int upBy) {
-        String[] newList = new String[list.length+upBy];
-        for(int i = 0; i < list.length; i++) {
-            newList[i] = list[i];
-        }
-        for(int i = 1; i < newList.length; i++) {
-            newList[i] = newList[i-1];
-        }
-        for(int i = 0; i < upBy; i++) {
-            newList[i] = representsNothing;
-        }
-        newList = fixListNulls(newList);
-        return newList;
-    }
-
-    public String[] fixListNulls(String[] list) {
-        for(int i = 0; i < list.length; i++) {
-            if(list[i] == null) {
-                list[i] = representsNothing;
-            }
-        }
-        return list;
-    }
-
-    public void print2DList(String[][] list2d) {
-        int count=0;
-        int countMini = 0;
-        for(int i = 0; i < list2d.length; i++) {
-
-            if(list2d[count][countMini] == representEndInData) {
-                list2d[count][countMini] = representsNothing;
-            }
-
-            Log.d("asd", "[" + count + "]" + "[" + countMini + "] = "  + list2d[count][countMini]);
-
-            if(countMini > 10) {
-                count++;
-                countMini=-1;
-            }
-
-            countMini++;
-        }
-    }
+    /////////////// MAIN MENU BUTTON METHODS ///////////////////////
 
     public void editBack(View v) {
         hideEverything();
@@ -617,15 +368,6 @@ public class MainActivity extends AppCompatActivity {
         editPage=0;
         if(!editAttribute.getText().toString().equals("edit attribute")) {
             editAttribute.setText("edit attribute");
-        }
-    }
-
-    public void printList(String[] list) {
-        for(int i = 0; i < list.length; i++) {
-            if(list[i] == null) {
-                list[i] = representsNothing;
-            }
-            Log.d("asd", list[i]);
         }
     }
 
@@ -691,6 +433,272 @@ public class MainActivity extends AppCompatActivity {
         displayList(dataLoad);
     }
 
+    public void settings(View v) {
+        settingsOpen = settingsOpen == false;
+
+        if(settingsOpen == true) {
+            hideEverything();
+            Button clearSettings = findViewById(R.id.clearDataButton);
+            clearSettings.setVisibility(View.VISIBLE);
+        } else {
+            Button clearSettings = findViewById(R.id.clearDataButton);
+            clearSettings.setVisibility(View.GONE);
+            editBack(new View(this));
+        }
+
+    }
+
+    public void clearData(View v) {
+        String[] restore = new String[2];
+        restore[0] = "hello";
+        restore[1] = "world";
+        writeToData(restore);
+        hideEverything();
+        Button clearSettings = findViewById(R.id.clearDataButton);
+        clearSettings.setVisibility(View.GONE);
+        createProfile.setVisibility(View.VISIBLE);
+        deleteProfile.setVisibility(View.VISIBLE);
+        displayList(loadTextFile(dataFile));
+    }
+
+    //////////// GENERAL USE METHODS ////////////////
+
+    public void updateProfileListWData() {
+        String[] dataLoad = loadTextFile(dataFile);
+        String[] blankList = new String[100];
+        blankList = fixListNulls(blankList);
+
+        for(int i = 0; i < dataLoad.length-2; i++) {
+            dataLoad[i+1] = dataLoad[i+2];
+            if(dataLoad[i] == null || dataLoad[i] == "" || dataLoad[i] == " ") {
+                dataLoad[i] = representsNothing;
+            }
+        }
+        dataLoad[0] = representEndInData;
+        dataLoad[dataLoad.length-1] = representsNothing;
+        dataLoad[dataLoad.length-2] = representsNothing;
+
+        int count = 0;
+        int saves = -1;
+        String[] tempDataLoad = new String[dataLoad.length];
+        boolean reading = false;
+
+        dataLoad = moveDownBy(dataLoad, 1);
+
+        //print2DList(profileDataFiles);
+
+        for(int i = 0; i < dataLoad.length; i++) {
+            if(dataLoad[i].equals(representEndInData)) {
+                reading = false;
+                saves++;
+                //Log.d("asd", "next save at " + saves);
+                //printList(tempDataLoad);
+                tempDataLoad = moveDownBy(tempDataLoad, 1);
+                saveListTo(tempDataLoad, profileData[saves]);
+                count = 0;
+            }
+
+            if(dataLoad[i].equals(representsStartInData)) {
+                reading = true;
+                //Log.d("asd", "new start");
+                for(int c = 0; c < tempDataLoad.length; c++) {
+                    tempDataLoad[c] = representsNothing;
+                }
+            }
+
+            if(reading == true) {
+                tempDataLoad[count] = dataLoad[i];
+                count++;
+            }
+        }
+    }
+
+    public void updateDataListWProfile() {
+
+        String output = "hello\nworld\n";
+
+        for(int i = 0; i < profileData.length; i++) {
+            String[] blankList = new String[profileData[i].length];
+            blankList = fixListNulls(blankList);
+
+            profileData[i] = fixListNulls(profileData[i]);
+
+            if(!profileData[i][0].equals(representsNothing)) {
+                String[] savePart = new String[profileData[i].length];
+                String saveString = "";
+
+                for(int j = 0; j < savePart.length; j++) {
+                    if(!profileData[i][j].equals(representsNothing)) {
+                        saveString+=profileData[i][j] + '\n';
+
+                    }
+                }
+
+                saveString = representsStartInData + '\n' + saveString+ representEndInData;
+
+                output += saveString;
+            }
+        }
+
+        writeToDataSingleString(output);
+        displayList(loadTextFile(dataFile));
+    }
+
+    public String[] loadTextFile(File inFile) {
+        FileInputStream fis;
+        String[] output = new String[1000000];
+
+        FileInputStream is;
+        BufferedReader reader;
+        final File textFile = new File(String.valueOf(inFile));
+        String[] textFileStr = new String[1000];
+
+
+        if (textFile.exists()) {
+            try {
+                is = new FileInputStream(textFile);
+                reader = new BufferedReader(new InputStreamReader(is));
+                String line = "";
+                int count = 0;
+
+                while ((line = reader.readLine()) != null) {
+                    textFileStr[count] = line;
+                    count++;
+                }
+
+                return textFileStr;
+
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return null;
+    }
+
+    public void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    public void displayList(String[] list) {
+        hideKeyboard();
+        String toTV = "";
+        for(int i = 0; i < list.length; i++) {
+
+            if(list[i] == null) {list[i] = representsNothing;}
+
+            if(list[i] == representsNothing) {} else {
+
+                toTV = toTV + list[i] + "\n";
+
+            }
+
+        }
+
+        listtv.setVisibility(View.VISIBLE);
+        listtv.setText(toTV);
+
+    }
+
+    public void delSingleAtt(int profileTo, int selected) {
+
+        for(int i = selected; i < profileData[0].length - selected; i++) {
+            profileData[profileTo][i] = profileData[profileTo][i+1];
+        }
+
+    }
+
+    public void hideViewsInLayout(int intid) {
+        LinearLayout view = findViewById(intid);
+        for (int i = 0; i < view.getChildCount(); i++) {
+            View child = view.getChildAt(i);
+            child.setVisibility(View.GONE);
+        }
+    }
+
+    public void showViewsInLayout(int intid) {
+        LinearLayout view = findViewById(intid);
+        for (int i = 0; i < view.getChildCount(); i++) {
+            View child = view.getChildAt(i);
+            child.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void saveListTo(String[] from, String[] to) {
+        for(int i = 0; i < to.length; i++) {
+            to[i] = from[i];
+        }
+    }
+
+    public String[] moveDownBy(String[] list, int downBy) {
+        for(int i = 0; i < list.length - downBy; i++) {
+            list[i] = list[i+1];
+        }
+        list = fixListNulls(list);
+        return list;
+    }
+
+    public String[] moveUpBy(String[] list, int upBy) {
+        String[] newList = new String[list.length+upBy];
+        for(int i = 0; i < list.length; i++) {
+            newList[i] = list[i];
+        }
+        for(int i = 1; i < newList.length; i++) {
+            newList[i] = newList[i-1];
+        }
+        for(int i = 0; i < upBy; i++) {
+            newList[i] = representsNothing;
+        }
+        newList = fixListNulls(newList);
+        return newList;
+    }
+
+    public String[] fixListNulls(String[] list) {
+        for(int i = 0; i < list.length; i++) {
+            if(list[i] == null) {
+                list[i] = representsNothing;
+            }
+        }
+        return list;
+    }
+
+    public void print2DList(String[][] list2d) {
+        int count=0;
+        int countMini = 0;
+        for(int i = 0; i < list2d.length; i++) {
+
+            if(list2d[count][countMini] == representEndInData) {
+                list2d[count][countMini] = representsNothing;
+            }
+
+            Log.d("asd", "[" + count + "]" + "[" + countMini + "] = "  + list2d[count][countMini]);
+
+            if(countMini > 10) {
+                count++;
+                countMini=-1;
+            }
+
+            countMini++;
+        }
+    }
+
+    public void printList(String[] list) {
+        for(int i = 0; i < list.length; i++) {
+            if(list[i] == null) {
+                list[i] = representsNothing;
+            }
+            Log.d("asd", list[i]);
+        }
+    }
+
     public void changeEditVisibility(boolean showorhide) {
         if(showorhide == true) {
             editBackButton.setVisibility(View.VISIBLE);
@@ -720,34 +728,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void settings(View v) {
-        settingsOpen = settingsOpen == false;
-
-        if(settingsOpen == true) {
-            hideEverything();
-            Button clearSettings = findViewById(R.id.clearDataButton);
-            clearSettings.setVisibility(View.VISIBLE);
-        } else {
-            Button clearSettings = findViewById(R.id.clearDataButton);
-            clearSettings.setVisibility(View.GONE);
-            editBack(new View(this));
-        }
-
-    }
-
-    public void clearData(View v) {
-        String[] restore = new String[2];
-        restore[0] = "hello";
-        restore[1] = "world";
-        writeToData(restore);
-        hideEverything();
-        Button clearSettings = findViewById(R.id.clearDataButton);
-        clearSettings.setVisibility(View.GONE);
-        createProfile.setVisibility(View.VISIBLE);
-        deleteProfile.setVisibility(View.VISIBLE);
-        displayList(loadTextFile(dataFile));
-    }
-
     public void hideEverything() {
         createProfile.setVisibility(View.GONE);
         deleteProfile.setVisibility(View.GONE);
@@ -756,6 +736,38 @@ public class MainActivity extends AppCompatActivity {
         }
         saveProfile.setVisibility(View.GONE);
     }
+
+    public void writeToData(String[] toWriteData) {
+        try {
+            FileWriter writer = new FileWriter(dataFile);
+
+            for (int i = 0; i < toWriteData.length; i++) {
+                if (toWriteData[i] == null) {
+                } else {
+                    writer.append(toWriteData[i] + "\n");
+                }
+            }
+
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeToDataSingleString(String toWriteData) {
+        try {
+            FileWriter writer = new FileWriter(dataFile);
+            writer.append(toWriteData);
+
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /////////////// INITIALIZE VARIABLES ///////////////////
 
     public void initializeVariables() {
         //Buttons, Textviews, and Editviews
