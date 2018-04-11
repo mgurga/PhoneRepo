@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     boolean bowTied = false;
     boolean addConformation = false;
     boolean editConformation = false;
+    boolean fixDataOnMenu = true;
 
     int curEditPage = 0;
     int editingProfile = 0;
@@ -361,9 +362,9 @@ public class MainActivity extends AppCompatActivity {
 
         editPrevButton.setVisibility(View.GONE);
         editNextButton.setVisibility(View.GONE);
+        editBackButton.setVisibility(View.GONE);
 
         displayList(loadTextFile(dataFile));
-        editBackButton.setVisibility(View.GONE);
 
         editPage=0;
         if(!editAttribute.getText().toString().equals("edit attribute")) {
@@ -591,7 +592,27 @@ public class MainActivity extends AppCompatActivity {
     public void displayList(String[] list) {
         hideKeyboard();
         String toTV = "";
-        for(int i = 0; i < list.length; i++) {
+
+        if(fixDataOnMenu) {
+            String[] fixedData = loadTextFile(dataFile);
+            fixedData = fixListNulls(fixedData);
+            int profileCounter = 0;
+
+            for(int i = 0; i < fixedData.length; i++) {
+                if(fixedData[i].equals(representsStartInData)) {
+                    profileCounter++;
+                    fixedData[i] = "profile " + profileCounter + " {";
+                } else if(fixedData[i].equals(representEndInData)) {
+                    fixedData[i] = "}";
+                }
+            }
+
+            list = fixedData;
+        } else {
+            list = loadTextFile(dataFile);
+        }
+
+        for(int i = 2; i < list.length-2; i++) {
 
             if(list[i] == null) {list[i] = representsNothing;}
 
