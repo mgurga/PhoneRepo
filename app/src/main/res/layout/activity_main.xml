@@ -38,6 +38,46 @@
             android:textSize="16sp"
             android:visibility="gone" />
 
+        <TextView
+            android:id="@+id/fontTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Font Size:"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/fontChanger"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/subtractFont"
+                android:layout_width="26dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="fontSizeMinus"
+                android:text="@string/leftAngle"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/fontSizeViewer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/addFont"
+                android:layout_width="26dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="fontSizePlus"
+                android:text="@string/rightAngle"
+                android:textSize="18sp" />
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/profileButtons"
             android:layout_width="match_parent"

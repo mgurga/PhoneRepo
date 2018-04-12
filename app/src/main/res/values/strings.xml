@@ -6,4 +6,6 @@
     <string name="save_profile">save profile</string>
     <string name="blank_placeholder">-</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="leftAngle"><![CDATA[<]]></string>
+    <string name="rightAngle"><![CDATA[>]]></string>
 </resources>

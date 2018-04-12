@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     int curEditPage = 0;
     int editingProfile = 0;
     int editPage = 0;
+    int fontSize = 20;
 
     //////////////// SETS UP SOME FILE STUFF ////////////////////
 
@@ -441,12 +442,30 @@ public class MainActivity extends AppCompatActivity {
             hideEverything();
             Button clearSettings = findViewById(R.id.clearDataButton);
             clearSettings.setVisibility(View.VISIBLE);
+            showViewsInLayout(R.id.fontChanger);
+            findViewById(R.id.fontTV).setVisibility(View.VISIBLE);
         } else {
             Button clearSettings = findViewById(R.id.clearDataButton);
             clearSettings.setVisibility(View.GONE);
             editBack(new View(this));
+            hideViewsInLayout(R.id.fontChanger);
+            findViewById(R.id.fontTV).setVisibility(View.GONE);
         }
 
+    }
+
+    public void fontSizeMinus(View v) {
+        fontSize--;
+        updateFont();
+    }
+
+    public void fontSizePlus(View v) {
+        fontSize++;
+        updateFont();
+    }
+
+    public void updateFont() {
+        listtv.setTextSize(fontSize);
     }
 
     public void clearData(View v) {
@@ -601,9 +620,11 @@ public class MainActivity extends AppCompatActivity {
             for(int i = 0; i < fixedData.length; i++) {
                 if(fixedData[i].equals(representsStartInData)) {
                     profileCounter++;
-                    fixedData[i] = "profile " + profileCounter + " {";
+                    fixedData[i] = profileCounter +" : " +fixedData[i+1] + " {";
                 } else if(fixedData[i].equals(representEndInData)) {
-                    fixedData[i] = "}";
+                    fixedData[i] = "}\n";
+                } else {
+                    fixedData[i] = "   " + fixedData[i];
                 }
             }
 
@@ -814,6 +835,9 @@ public class MainActivity extends AppCompatActivity {
         editInfo = findViewById(R.id.editInfoViewer);
         editInfo.setText("Set the replace value to \".\" to delete the single line");
         editInfo.setVisibility(View.GONE);
+
+        hideViewsInLayout(R.id.fontChanger);
+        findViewById(R.id.fontTV).setVisibility(View.GONE);
 
         settingsButton =findViewById(R.id.settingsButton);
         editButtons[0] = findViewById(R.id.editButton1);
