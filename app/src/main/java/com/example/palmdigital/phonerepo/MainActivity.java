@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     int curEditPage = 0;
     int editingProfile = 0;
     int editPage = 0;
-    int fontSize = 20;
+    int fontSize = 18;
 
     //////////////// SETS UP SOME FILE STUFF ////////////////////
 
@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
         setupComplete();
 
         border2.setVisibility(View.VISIBLE);
-        editBackButton.setVisibility(View.GONE);
 
         displayList(loadTextFile(dataFile));
 
@@ -123,13 +122,14 @@ public class MainActivity extends AppCompatActivity {
         hideEverything();
         createProfile.setVisibility(View.VISIBLE);
         deleteProfile.setVisibility(View.VISIBLE);
-        TextView tv = findViewById(R.id.textView71);
+        TextView tv = findViewById(R.id.listTV);
         tv.setVisibility(View.VISIBLE);
         changeEditVisibility(false);
         hideViewsInLayout(R.id.attribute_editor);
         //Log.d("asd", profileData.length + "");
         updateProfileListWData();
         displayList(loadTextFile(dataFile));
+        updateFont();
     }
 
     public void editProfile(View v) {
@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
         settingsButton.setVisibility(View.GONE);
         listtv.setVisibility(View.GONE);
         changeEditVisibility(true);
-        editBackButton.setVisibility(View.VISIBLE);
         border2.setVisibility(View.VISIBLE);
         editPrevButton.setVisibility(View.VISIBLE);
         editNextButton.setVisibility(View.VISIBLE);
@@ -249,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("asd", editingProfile +"");
             addAttribute(editingProfile, addAttInputButton.getText().toString());
             addConformation = false;
-            editBack(editBackButton);
+            editBack();
             border2.setVisibility(View.VISIBLE);
         }
     }
@@ -285,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
            }
 
            if(userProfileIn == -1) {
-               editBack(editBackButton);
+               editBack();
                editConformation = false;
            }
 
@@ -303,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
 
            Log.d("asd", "userInput: " + userInput + "  userProfileInput: " + userProfileIn);
            editInfo.setVisibility(View.VISIBLE);
-           editBack(editBackButton);
+           editBack();
 
         } else {
 
@@ -323,7 +322,7 @@ public class MainActivity extends AppCompatActivity {
             deleteConformation = true;
         } else {
             Log.d("asd", "deleted");
-            editBack(findViewById(R.id.editBackID));
+            editBack();
             removeAttribute(editingProfile);
         }
     }
@@ -350,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
 
     /////////////// MAIN MENU BUTTON METHODS ///////////////////////
 
-    public void editBack(View v) {
+    public void editBack() {
         hideEverything();
         findViewById(R.id.scroll).setScrollY(0);
         hideViewsInLayout(R.id.attribute_editor);
@@ -363,7 +362,6 @@ public class MainActivity extends AppCompatActivity {
 
         editPrevButton.setVisibility(View.GONE);
         editNextButton.setVisibility(View.GONE);
-        editBackButton.setVisibility(View.GONE);
 
         displayList(loadTextFile(dataFile));
 
@@ -443,11 +441,12 @@ public class MainActivity extends AppCompatActivity {
             Button clearSettings = findViewById(R.id.clearDataButton);
             clearSettings.setVisibility(View.VISIBLE);
             showViewsInLayout(R.id.fontChanger);
+            updateFont();
             findViewById(R.id.fontTV).setVisibility(View.VISIBLE);
         } else {
             Button clearSettings = findViewById(R.id.clearDataButton);
             clearSettings.setVisibility(View.GONE);
-            editBack(new View(this));
+            editBack();
             hideViewsInLayout(R.id.fontChanger);
             findViewById(R.id.fontTV).setVisibility(View.GONE);
         }
@@ -466,6 +465,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateFont() {
         listtv.setTextSize(fontSize);
+        TextView etv = (TextView) findViewById(R.id.textFont);
+        etv.setText(fontSize+"");
     }
 
     public void clearData(View v) {
@@ -652,10 +653,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void delSingleAtt(int profileTo, int selected) {
 
+        printList(profileData[profileTo]);
+
         for(int i = selected; i < profileData[0].length - selected; i++) {
             profileData[profileTo][i] = profileData[profileTo][i+1];
         }
 
+    }
+
+    public void onBackPressed() {
+        editBack();
     }
 
     public void hideViewsInLayout(int intid) {
@@ -743,7 +750,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void changeEditVisibility(boolean showorhide) {
         if(showorhide == true) {
-            editBackButton.setVisibility(View.VISIBLE);
             for (int i = 0; i < 4; i++) {
                 editButton3tvs[i].setVisibility(View.VISIBLE);
                 editButton2tvs[i].setVisibility(View.VISIBLE);
@@ -757,7 +763,6 @@ public class MainActivity extends AppCompatActivity {
             editPrevButton.setVisibility(View.GONE);
             editNextButton.setVisibility(View.GONE);
             listtv.setVisibility(View.GONE);
-            editBackButton.setVisibility(View.GONE);
 
             for (int i = 0; i < 4; i++) {
                 editButton3tvs[i].setVisibility(View.GONE);
@@ -816,7 +821,6 @@ public class MainActivity extends AppCompatActivity {
         createProfile = findViewById(R.id.createProfile);
         deleteProfile = findViewById(R.id.deleteProfile);
         saveProfile = findViewById(R.id.saveProfile);
-        editBackButton = findViewById(R.id.editBackID);
         border2 = findViewById(R.id.border2);
         border1 = findViewById(R.id.border1);
         editPrevButton = findViewById(R.id.prevEditPage);
@@ -859,7 +863,7 @@ public class MainActivity extends AppCompatActivity {
         editButton3tvs[2] = findViewById(R.id.button3tv3);
         editButton3tvs[3] = findViewById(R.id.button3tv4);
 
-        listtv = findViewById(R.id.textView71);
+        listtv = findViewById(R.id.listTV);
         listtv.setVisibility(View.VISIBLE);
 
         inputFields[0] = findViewById(R.id.input1);

@@ -63,10 +63,12 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/fontSizeViewer"
+                android:id="@+id/textFont"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/addFont"
@@ -189,7 +191,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView71"
+            android:id="@+id/listTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
@@ -199,7 +201,8 @@
             android:singleLine="false"
             android:textSize="24sp"
             android:visibility="visible"
-            tools:targetApi="jelly_bean" />
+            tools:targetApi="jelly_bean"
+            tools:text="This is the list tv" />
 
         <LinearLayout
             android:id="@+id/edit_menu"
@@ -411,7 +414,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="deleteAttribute"
-                android:text="delete attribute"
+                android:text="delete profile"
                 android:textSize="18sp"
                 android:typeface="monospace" />
         </LinearLayout>
@@ -422,14 +425,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="-------------------------------------------------------------------------------------" />
-
-        <Button
-            android:id="@+id/editBackID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="editBack"
-            android:text="Back" />
 
     </android.widget.LinearLayout>
 </android.widget.ScrollView>
